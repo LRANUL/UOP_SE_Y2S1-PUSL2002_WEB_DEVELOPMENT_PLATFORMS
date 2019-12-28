@@ -40,8 +40,39 @@
             <div class="row">
                 <div class="col-md-3">
                     <div class="card">
-                        <div class="card-body text-white bg-primary" data-bs-hover-animate="pulse">
-                            <h4 class="text-center card-title">Registered Users</h4><small class="form-text text-uppercase text-center text-white">150 users</small></div>
+                        <button type="button" class="btn btn-info btn-lg bg-secondary" data-toggle="modal" data-target="#RegisterModal">
+                          <div class="card-body text-white bg-secondary" data-bs-hover-animate="pulse">
+                            <h5 class="text-center card-title">Registered Users</h5>
+                          </div>
+                     </div>
+                      <div class="modal fade" id="RegisterModal" role="dialog">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                           <div class="modal-header">
+                                <h4 class="modal-title">Registered users</h4>
+                           </div>
+                               <div class="modal-body">
+                                <table class="table table-striped">
+                                  <thead>
+                                     <tr>
+                                       <th scope="col">Name</th>
+                                       <th scope="col"> Registragtion number</th>
+                                       <th scope="col"> Date of Birth</th>
+                                     </tr>
+                                  </thead>
+                                   <tbody>
+                                    <td>mark</td>
+                                    <td>102516546</td>
+                                    <td>12/14/12</td>
+                                   </tbody>
+                                </table>
+                               </div>
+                             <div class="modal-footer">
+                               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                             </div>
+                        </div>
+                    </div>
+                        </button>
                     </div>
                 </div>
                 <div class="col-md-3">
@@ -52,19 +83,85 @@
                 </div>
                 <div class="col-md-3">
                     <div class="card">
-                        <div class="card-body bg-success" data-bs-hover-animate="pulse">
-                            <h4 class="text-center text-white card-title">Managed</h4><small class="form-text text-center text-white">10 MANAGED ACCIDENTS</small></div>
+                       <button type="button" class="btn btn-info btn-lg bg-success" data-toggle="modal" data-target="#manageModal">
+                          <div class="card-body text-white bg-success" data-bs-hover-animate="pulse">
+                            <h5 class="text-center card-title">Managed Accidents</h5>
+                          </div>
+                     </div>
+                      <div class="modal fade" id="manageModal" role="dialog">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                           <div class="modal-header">
+                                <h4 class="modal-title">Managed Accidents</h4>
+                           </div>
+                               <div class="modal-body">
+                                <table class="table table-striped">
+                                  <thead>
+                                     <tr>
+                                       <th scope="col">Name</th>
+                                       <th scope="col"> Registragtion number</th>
+                                       <th scope="col"> Date of Birth</th>
+                                       <th scope="col"> Accepted time</th>
+                                     </tr>
+                                  </thead>
+                                   <tbody>
+                                    <tr>
+                                    <td>mark</td>
+                                    <td>102516546</td>
+                                    <td>12/14/12</td>
+                                    <td>10.00pm</td>
+                                    </tr>
+                                   </tbody>
+                                </table>
+                               </div>
+                             <div class="modal-footer">
+                               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                             </div>
+                        </div>
+                    </div>
+                        </button>
                     </div>
                 </div>
-                <div class="col-md-3" data-bs-hover-animate="pulse">
-                    <div class="card text-white bg-warning">
-                        <div class="card-body bg-warning">
-                            <h4 class="text-center card-title">Ongoing</h4><small class="form-text text-center text-white">50 ATTENDING ACCIDENTS</small></div>
+                <div class="col-md-3">
+                     <button type="button" class="btn btn-info btn-lg bg-warning" data-toggle="modal" data-target="#ongoingModal">
+                          <div class="card-body text-white bg-warning" data-bs-hover-animate="pulse">
+                            <h4 class="text-center card-title">Ongoing</h4>
+                          </div>
+                     </div>
+                      <div class="modal fade" id="ongoingModal" role="dialog">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                           <div class="modal-header">
+                                <h4 class="modal-title">Ongoing</h4>
+                           </div>
+                               <div class="modal-body">
+                                <table class="table table-striped">
+                                  <thead>
+                                     <tr>
+                                       <th scope="col">Name</th>
+                                       <th scope="col"> Registragtion number</th>
+                                       <th scope="col"> Date of Birth</th>
+                                       <th scope="col"> Estimated time</th>
+                                     </tr>
+                                  </thead>
+                                   <tbody>
+                                    <tr>
+                                    <td>mark</td>
+                                    <td>102516546</td>
+                                    <td>12/14/12</td>
+                                    <td> 10 min</td>
+                                    </tr>
+                                   </tbody>
+                                </table>
+                               </div>
+                             <div class="modal-footer">
+                               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                             </div>
+                        </div>
+                    </div>
+                        </button>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
     <div class="highlight-blue" style="background-color: rgb(84,176,99);">
         <div class="container-fluid">
             <div class="intro">
@@ -78,7 +175,7 @@
                 <div class="col-auto col-md-12 text-center align-self-center m-auto" style="background-color: rgb(206,255,214);">
                     <nav class="navbar navbar-light navbar-expand-xl navigation-clean-button" style="background-color: rgb(206,255,214);">
                         <div class="container"><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
-                            <div class="collapse navbar-collapse" id="navcol-1"><span class="navbar-text actions"> </span><span class="navbar-text actions"> <a class="btn btn-primary bg-success action-button" role="button" href="#" style="margin: 10px;">Manage Accident Reports</a></span></div>
+                            <div class="collapse navbar-collapse" id="navcol-1"><span class="navbar-text actions"> </span><span class="navbar-text actions"> <a class="btn btn-primary bg-success action-button" role="button" href="#" style="margin: 10px;">View Accident Reports</a></span></div>
                         </div>
                     </nav>
                 </div>
