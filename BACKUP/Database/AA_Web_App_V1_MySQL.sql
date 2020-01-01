@@ -159,3 +159,9 @@ CREATE TABLE Login(
 )ENGINE=MYISAM;
 
 -- Inserting records into Table 10 - Login
+
+-- Added New User to Database Access
+
+CREATE USER 'RDAAdmin'@'localhost' IDENTIFIED BY 'PUsl2002';
+GRANT ALL PRIVILEGES ON * . * TO 'RDAAdmin'@'localhost';
+FLUSH PRIVILEGES;
