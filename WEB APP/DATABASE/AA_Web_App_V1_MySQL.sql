@@ -196,6 +196,17 @@ CREATE TABLE WebMaster(
 )ENGINE=INNODB;
 
 -- Inserting records into Table 9 - WebMaster
+INSERT INTO WebMaster(NIC, Name, Email, EID)
+VALUES(1234568994, "Sydney", "Sydney12@gmail.com", 90000031),
+(7487894563, "Mazie", "Mazie41@yahoo.com", 90000032),
+(4978962565, "Nicholas", "Nicholas49@yahoo.com", 90000033),
+(9638549123, "Mckinney", "Mckinney96@gmail.com", 90000034),
+(1213141589, "Torres", "Torres12@gmail.com", 90000035),
+(3625912056, "IshanC7", "IshanC7@yahoo.com", 90000036),
+(7418524891, "Dougie", "Dougie74@yahoo.com", 90000037),
+(0321458941, "Kumar", "Kumar03@gmail.com", 90000038),
+(0456124138, "Filip", "Filip0456@yahoo.com", 90000039),
+(0000007632, "Sydney", "Sydney000@yahoo.com", 90000040);
 
 
 -- Creating Table 10 - Login
