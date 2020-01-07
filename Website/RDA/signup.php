@@ -1,5 +1,9 @@
 <?php
-
+/**
+* Following code Encypts registerd password with salt and inserts new data to Tables 'Users'
+*and 'Driver', validations are done and warnings about issues and other related details agrees are shown to user.
+*--R.P.L--
+*/
 require_once "config.php";
 
   if(isset($_POST['submit'])) {
@@ -13,7 +17,8 @@ require_once "config.php";
       $insurance = $_POST['insurance'];
       $email = $_POST['email'];
       $password = $_POST['password'];
-
+/*Below hash function currently sets salt at cost 4, this can be increased till value till 22 to increase strength but this will effect stability
+of the pages and server as encoding process requires more processing power. */
       $options = array("cost" => 4);
       $hashPassword = password_hash($password, PASSWORD_BCRYPT, $options);
 
@@ -99,8 +104,6 @@ class="collapse navbar-collapse" id="navcol-1">
             <div class="col-sm-4 col-md-3 text-center item">
                 <h3>About</h3>
                 <ul>
-
-
                     <li><a href="http://www.rda.gov.lk/">Ministry</a></li>
                 </ul>
             </div>
