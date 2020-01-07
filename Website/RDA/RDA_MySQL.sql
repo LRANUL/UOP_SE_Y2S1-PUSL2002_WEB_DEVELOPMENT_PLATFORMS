@@ -1,8 +1,17 @@
+
+-- Database Name Addreviation Long Form: Accident Assistance Web Application
+-- Creating new database
+DROP DATABASE IF EXISTS rda_db;
+CREATE DATABASE rda_db;
+
+-- Accessing newly created database
+USE rda_db;
+
 -- Creating Table 1 - Driver
 CREATE TABLE Driver(
-  NIC VARCHAR(12) NOT NULL,
-  firstname VARCHAR(100),
-  lastname VARCHAR(100),
+  NIC VARCHAR(12),
+  name VARCHAR(100),
+  LastName VARCHAR(100),
   DateOfBirth DATE,
   Email VARCHAR(50) UNIQUE,
   ContactNo CHAR(10),
@@ -13,7 +22,7 @@ CREATE TABLE Driver(
 )ENGINE=INNODB;
 
 -- Inserting records into Table 1 - Driver
-INSERT INTO Driver( NIC, firstname, LastName, DateOfBirth, Email, ContactNo, InsuranceNo, InsuranceName, LicenseNo)
+INSERT INTO Driver(NIC, name, LastName, DateOfBirth, Email, ContactNo, InsuranceNo, InsuranceName, LicenseNo)
 Values (2001345796, "Rohan", "Thomas", "1980-02-16", "Rohan12@gmail.com", 0763489516, "AB603759A", "Celinco Insurance", "JB6412"),
 (2001546861, "Peter", "Dissanayake", "1970/06/14", "Peter1@yahoo.com", 0729373776, "DC415615B", "AIG Insurance", "SL6721"),
 (3873439372, "Jackson", "Fernando", "1980/09/22", "fjackson@gmail.com", 0717672404, "FG841545V", "Softlogic insurance", "KJ2831"),
@@ -26,28 +35,12 @@ Values (2001345796, "Rohan", "Thomas", "1980-02-16", "Rohan12@gmail.com", 076348
 (7456780465, "Ajith", "Sirisena", "2001/02/18", "ajith@gmail.com", 0727873389, "AG784186C", "Celinco Insurance", "PA9046");
 
 
-CREATE TABLE USERS (
- NIC VARCHAR(12) NOT NULL,
- firstname VARCHAR(100),
- email VARCHAR(100) NULL DEFAULT NULL,
- password VARCHAR(255) NULL DEFAULT NULL,
-PRIMARY KEY (NIC)
-)
-ENGINE=InnoDB
-;
-
--- BELOW LINE NOT TESTED WITH SCENATIO, will need to make changes
-
-
-
-
-
 -- Creating Table 2 - Report
 CREATE TABLE Report(
   ID INT(7) NOT NULL AUTO_INCREMENT,
   NIC VARCHAR(12) NOT NULL,
-  Severity TINYINT(10),
-  Type VARCHAR(10),
+  Severity TINYINT(1),
+  Type VARCHAR(1),
   Description TINYTEXT,
   Date_Time DATETIME,
   Longitude FLOAT(5),
@@ -71,17 +64,19 @@ VALUES (7835404537, 1, "full", "A small accident with a small amount of damage",
 -- Column with BLOB data type, 'Media', can't be added to a composite primary key without a key length.
 -- So, another column was added, 'MediaID', to include in the composite primary key.
 CREATE TABLE ReportMedia(
-  ID INT(7) NOT NULL,
+  ID INT(7) NOT NULL AUTO_INCREMENT,
   NIC VARCHAR(12) NOT NULL,
   MediaID INT,
   Media BLOB,
   PRIMARY KEY (ID, NIC, MediaID),
-  FOREIGN KEY (ID) REFERENCES Report(ID),
+  FOREIGN KEY (MediaID) REFERENCES Report(ID),
   FOREIGN KEY (NIC) REFERENCES Report(NIC)
 )ENGINE=INNODB;
 
 -- Inserting records into Table 3 - ReportMedia
-
+INSERT INTO ReportMedia(NIC, MediaID, Media) /*this NIC should be a driver */
+VALUES
+(7835404537, 0000001, LOAD_FILE("d:/data.txt"));
 
 -- Creating Table 4 - Complaint
 CREATE TABLE Complaint(
@@ -96,27 +91,71 @@ CREATE TABLE Complaint(
 -- Altering Table 4 - Complaint, to add starting value for AUTO INCREMENT column
 ALTER TABLE Complaint AUTO_INCREMENT = 6000000;
 
+
 -- Inserting records into Table 4 - Complaint
+INSERT INTO Complaint(NIC, Type, Description)
+VALUES (7835404537, "Error","Can''t login"),
+       (7835404537, "Error","Can''t login"),
+       (7835404537, "Error","Can''t login");
+
+
 
 
 -- Creating Table 5 - EmployeeDetails
 CREATE TABLE EmployeeDetails(
   EID INT(7) NOT NULL AUTO_INCREMENT,
-  nic VARCHAR(100),
-  LastName VARCHAR(100),
   DateOfBirth DATE,
-  ContactNo CHAR(10),
   Street VARCHAR(80),
   City VARCHAR(50),
-  Provience VARCHAR(40),
+  Province VARCHAR(40),
   PRIMARY KEY (EID)
 )ENGINE=INNODB;
 
 -- Altering Table 5 - EmployeeDetails, to add starting value for AUTO INCREMENT column
-ALTER TABLE Complaint AUTO_INCREMENT = 9000000;
+ALTER TABLE EmployeeDetails AUTO_INCREMENT = 9000001;
 
 -- Inserting records into Table 5 - EmployeeDetails
-
+INSERT INTO EmployeeDetails(DateOfBirth,Street,City,Province)VALUES
+('2000-01-01','Abdul Caffoor Mawatha','Colombo','Western'),
+('1999-02-01','Alan Mathiniyarama Rd','Colombo','Western'),
+('1999-03-01','Alexandra Rd','Colombo','Western'),
+('1998-03-01','Alfred House Gardens Rd','Colombo','Western'),
+('1998-12-01','Andarewatta Rd','Colombo','Western'),
+('2018-12-01','Anula Rd','Colombo','Western'),
+('2018-12-01','Bagatalle Rd','Colombo','Western'),
+('2018-12-02','Balapokuna Rd','Colombo','Western'),
+('2018-12-02','Buchanan St','Colombo','Western'),
+('2018-12-02','Charlemont Rd','Colombo','Western'),
+('2018-12-02','Colombo Plan Rd','Colombo','Western'),
+('2018-12-02','Davidson Rd','Colombo','Western'),
+('2018-12-03','Dhammarama Rd','Colombo','Western'),
+('2018-12-03','Dharmaraja Mawatha','Colombo','Western'),
+('2018-12-03','Dutugemunu St','Colombo','Western'),
+('2018-12-03','Edmond Rd','Colombo','Western'),
+('2018-12-03','Elvitigala Mawatha','Colombo','Western'),
+('2018-12-04','Fernando Rd','Colombo','Western'),
+('2018-12-04','Fredrica Rd','Colombo','Western'),
+('2018-12-04','Girton School Rd','Colombo','Western'),
+('2018-12-04','Handunge Mawatha','Colombo','Western'),
+('2018-12-21','Harischandra Mawatha','Colombo','Western'),
+('2018-12-21','Havelock Rd','Colombo','Western'),
+('2018-12-21','Iswari Rd','Colombo','Western'),
+('2018-12-21','Jaya Rd','Colombo','Western'),
+('2018-12-21','Jayasinghe Rd','Colombo','Western'),
+('2018-12-21','Kalinga Mawatha','Colombo','Western'),
+('2018-12-11','Kalinga Rd','Colombo','Western'),
+('2018-12-10','Kalyani Rd','Colombo','Western'),
+('2018-12-10','Kokila Rd','Colombo','Western'),
+('2018-12-11','Lauries Rd','Colombo','Western'),
+('2018-12-11','Lorensz Rd','Colombo','Western'),
+('2018-12-11','Lower Bagatalle Rd','Colombo','Western'),
+('2018-12-11','Macleod Rd','Colombo','Western'),
+('2018-12-11','Maheswari Rd','Colombo','Western'),
+('2018-12-11','Mahinda Rd','Colombo','Western'),
+('2018-12-11','Mugalan Rd','Colombo','Western'),
+('2018-12-03','Mumtaz Mahal Rd','Colombo','Western'),
+('2018-12-04','Nimal Rd','Colombo','Western'),
+('2018-12-05','Nimalka Gardens Rd','Colombo','Western');
 
 -- Creating Table 6 - Police_Agent
 CREATE TABLE Police_Agent(
@@ -148,6 +187,7 @@ CREATE TABLE Insurance_Agent(
   NIC VARCHAR(12) NOT NULL,
   Name VARCHAR(30),
   Email VARCHAR(50) UNIQUE,
+  ContactNo INT(10),
   EID INT(7) NOT NULL,
   InsuranceName VARCHAR(25),
   PRIMARY KEY (NIC, EID),
@@ -155,17 +195,17 @@ CREATE TABLE Insurance_Agent(
 )ENGINE=INNODB;
 
 -- Inserting records into Table 7 - Insurance_Agent
-INSERT INTO Insurance_Agent(NIC, Name, Email, EID, InsuranceName)
-VALUES(7841561006, "Ajantha", "ajantha12@gmail.com", 0761848923, 90000011, "Celinco Insurance"),
-(4484521004, "Rajitha", "Rajitha31@yahoo.com", 0761984123, 90000012, "AIG Insurance"),
-(9485158941, "Ramesh", "Rames3@yahoo.com", 0713843831, 90000013, "Celinco insurance"),
-(5961489561, "Nuwan", "Nuwan8@gmail.com", 0726898499, 90000014, "Allianz Insurance"),
-(5962303894, "Udana", "Udana54@yahoo.com", 0763498423, 90000015, "Celinco insurance"),
-(2659264529, "Gamini", "Gamini314@yahoo.com", 0716884921, 90000016, "AIG Insurance"),
-(2051514121, "Ranga", "tranga@gmail.com", 0761348984, 90000017, "Allianz Insurance"),
-(3226448941, "Tharindu", "Tharindu98@gmail.com", 0719873428, 90000018, "AIG Insurance"),
-(1949168441, "Kamal", "Kamal7@yahoo.com", 0728792129, 90000019, "Celinco insurance"),
-(4897457846, "Pavan" , "Pavan1@yahoo.com", 0761423890, 90000020, "Allianz Insurance");
+INSERT INTO Insurance_Agent(NIC, Name, Email,ContactNo, EID, InsuranceName)
+VALUES(7841561006, "Ajantha", "ajantha12@gmail.com", 0761848923, 9000011, "Celinco Insurance"),
+(4484521004, "Rajitha", "Rajitha31@yahoo.com", 0761984123, 9000012, "AIG Insurance"),
+(9485158941, "Ramesh", "Rames3@yahoo.com", 0713843831, 9000013, "Celinco insurance"),
+(5961489561, "Nuwan", "Nuwan8@gmail.com", 0726898499, 9000014, "Allianz Insurance"),
+(5962303894, "Udana", "Udana54@yahoo.com", 0763498423, 9000015, "Celinco insurance"),
+(2659264529, "Gamini", "Gamini314@yahoo.com", 0716884921, 9000016, "AIG Insurance"),
+(2051514121, "Ranga", "tranga@gmail.com", 0761348984, 9000017, "Allianz Insurance"),
+(3226448941, "Tharindu", "Tharindu98@gmail.com", 0719873428, 9000018, "AIG Insurance"),
+(1949168441, "Kamal", "Kamal7@yahoo.com", 0728792129, 9000019, "Celinco insurance"),
+(4897457846, "Pavan" , "Pavan1@yahoo.com", 0761423890, 9000020, "Allianz Insurance");
 
 
 
@@ -181,16 +221,16 @@ CREATE TABLE RDA_Agent(
 
 -- Inserting records into Table 8 - RDA_Agent
 INSERT INTO RDA_Agent(NIC, Name, Email, EID)
-VALUES(4894198994, "Chamara", "chamara24@gmail.com", 90000021),
-(7481984123, "Chathura", "wchathura@yahoo.com", 90000022),
-(4986516165, "Banduka", "banduka23@yahoo.com", 90000023),
-(84911849123, "Akith", "Akith64@gmail.com", 90000024),
-(3164946139, "Andrew", "Andrew74@gmail.com", 90000025),
-(7415112056, "Dulan", "Dulan13@yahoo.com", 90000026),
-(6321984891, "Vishal", "Vishal9@yahoo.com", 90000027),
-(0561489418, "Thilak", "thilak34@gmail.com", 90000028),
-(4135494138, "Marvan", "Marvan792@yahoo.com", 90000029),
-(8431257632, "Lavindra", "Lavindra476@yahoo.com", 90000030);
+VALUES(4894198994, "Chamara", "chamara24@gmail.com", 9000021),
+(7481984123, "Chathura", "wchathura@yahoo.com", 9000022),
+(4986516165, "Banduka", "banduka23@yahoo.com", 9000023),
+(84911849123, "Akith", "Akith64@gmail.com", 9000024),
+(3164946139, "Andrew", "Andrew74@gmail.com", 9000025),
+(7415112056, "Dulan", "Dulan13@yahoo.com", 9000026),
+(6321984891, "Vishal", "Vishal9@yahoo.com", 9000027),
+(0561489418, "Thilak", "thilak34@gmail.com", 9000028),
+(4135494138, "Marvan", "Marvan792@yahoo.com", 9000029),
+(8431257632, "Lavindra", "Lavindra476@yahoo.com", 9000030);
 
 
 -- Creating Table 9 - WebMaster
@@ -205,35 +245,58 @@ CREATE TABLE WebMaster(
 
 -- Inserting records into Table 9 - WebMaster
 INSERT INTO WebMaster(NIC, Name, Email, EID)
-VALUES(1234568994, "Sydney", "Sydney12@gmail.com", 90000031),
-(7487894563, "Mazie", "Mazie41@yahoo.com", 90000032),
-(4978962565, "Nicholas", "Nicholas49@yahoo.com", 90000033),
-(9638549123, "Mckinney", "Mckinney96@gmail.com", 90000034),
-(1213141589, "Torres", "Torres12@gmail.com", 90000035),
-(3625912056, "IshanC7", "IshanC7@yahoo.com", 90000036),
-(7418524891, "Dougie", "Dougie74@yahoo.com", 90000037),
-(0321458941, "Kumar", "Kumar03@gmail.com", 90000038),
-(0456124138, "Filip", "Filip0456@yahoo.com", 90000039),
-(0000007632, "Sydney", "Sydney000@yahoo.com", 90000040);
+VALUES(1234568994, "Sydney", "Sydney12@gmail.com", 9000031),
+(7487894563, "Mazie", "Mazie41@yahoo.com", 9000032),
+(4978962565, "Nicholas", "Nicholas49@yahoo.com", 9000033),
+(9638549123, "Mckinney", "Mckinney96@gmail.com", 9000034),
+(1213141589, "Torres", "Torres12@gmail.com", 9000035),
+(3625912056, "IshanC7", "IshanC7@yahoo.com", 9000036),
+(7418524891, "Dougie", "Dougie74@yahoo.com", 9000037),
+(0321458941, "Kumar", "Kumar03@gmail.com", 9000038),
+(0456124138, "Filip", "Filip0456@yahoo.com", 9000039),
+(0000007632, "Sydney", "Sydney000@yahoo.com", 9000040);
 
 
 -- Creating Table 10 - Login
-CREATE TABLE Login(
-  Email VARCHAR(7),
-  NIC VARCHAR(12) NOT NULL,
-  Type VARCHAR(10),
-  PasswordHash BINARY(64),
-  PRIMARY KEY (NIC),
+CREATE TABLE Login_EMP(
+  Type VARCHAR(30),
+  EID INT(7),
+  PasswordHash VARCHAR(10),
+  PRIMARY KEY (EID,Type),
+  FOREIGN KEY (EID) REFERENCES EmployeeDetails(EID)
+/* FOREIGN KEY (NIC) REFERENCES Driver(NIC),
+  FOREIGN KEY (NIC) REFERENCES Police_Agent(NIC),
+  FOREIGN KEY (NIC) REFERENCES Insurance_Agent(NIC),
+  FOREIGN KEY (NIC) REFERENCES RDA_Agent(NIC),
+  FOREIGN KEY (NIC) REFERENCES WebMaster(NIC),
   FOREIGN KEY (Email) REFERENCES Driver(Email),
   FOREIGN KEY (Email) REFERENCES Police_Agent(Email),
   FOREIGN KEY (Email) REFERENCES Insurance_Agent(Email),
   FOREIGN KEY (Email) REFERENCES RDA_Agent(Email),
-  FOREIGN KEY (Email) REFERENCES WebMaster(Email),
-  FOREIGN KEY (NIC) REFERENCES Driver(NIC),
-  FOREIGN KEY (NIC) REFERENCES Police_Agent(NIC),
-  FOREIGN KEY (NIC) REFERENCES Insurance_Agent(NIC),
-  FOREIGN KEY (NIC) REFERENCES RDA_Agent(NIC),
-  FOREIGN KEY (NIC) REFERENCES WebMaster(NIC)
+  FOREIGN KEY (Email) REFERENCES WebMaster(Email)*/
 )ENGINE=INNODB;
 
 -- Inserting records into Table 10 - Login
+
+INSERT INTO Login_EMP(EID, Type, PasswordHash)
+VALUES
+(9000001,"Police_Agent", "xyz"),
+(9000011, "Insurance_Agent", "789"),
+(9000021, "RDA_Agent", "abc"),
+(9000031, "WebMaster", "");
+
+
+
+CREATE TABLE Login_Driver(
+  NIC VARCHAR(12),
+  Type VARCHAR(30),
+  PasswordHash VARCHAR(10),
+  PRIMARY KEY (NIC,type),
+  FOREIGN KEY (NIC) REFERENCES Driver(NIC)
+)ENGINE=INNODB;
+
+-- Inserting records into Table 10 - Login
+
+INSERT INTO Login_Driver(NIC, Type, PasswordHash)
+VALUES
+(2001345796,"Driver","xyz");
