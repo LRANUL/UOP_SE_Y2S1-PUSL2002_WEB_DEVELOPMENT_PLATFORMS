@@ -76,7 +76,7 @@ CREATE TABLE ReportMedia(
 -- Inserting records into Table 3 - ReportMedia
 INSERT INTO ReportMedia(NIC, MediaID, Media) /*this NIC should be a driver */
 VALUES
-(7835404537, 0000001, LOAD_FILE("D:\sadasdasd.JPG"));
+(7835404537, 0000001, LOAD_FILE("d:/data.txt"));
 
 -- Creating Table 4 - Complaint
 CREATE TABLE Complaint(
