@@ -12,6 +12,19 @@
 
 //  while($res = mysqli_fetch_array($result))
 
+//sample data for chart
+   $dataPoints = array(
+  array("label"=> "2019", "y"=> 10101),
+  array("label"=> "2018", "y"=> 10000),
+  array("label"=> "2017", "y"=> 40000),
+  array("label"=> "2016", "y"=> 35000),
+  array("label"=> "2015", "y"=> 30000),
+  array("label"=> "2014", "y"=> 22000),
+  array("label"=> "2013", "y"=> 20000),
+  array("label"=> "2012", "y"=> 10000),
+  array("label"=> "2011", "y"=> 1000),
+  array("label"=> "2010", "y"=> 100)
+);
 ?>
 
 <!DOCTYPE html>
@@ -45,7 +58,34 @@
     });
     </script>
 
+       <script>
+window.onload = function () {
+
+//accidents chart 
+var chart = new CanvasJS.Chart("chartContainer", {
+  animationEnabled: true,
+  theme: "light2", 
+  title: {
+    text: "Totall Accidents occured from 2010 - 2019"
+  },
+  axisY: {
+    title: "Accidents",
+    includeZero: false
+  },
+  data: [{
+    type: "column",
+    dataPoints: <?php echo json_encode($dataPoints, JSON_NUMERIC_CHECK); ?>
+  }]
+});
+chart.render();
+ 
+}
+</script>
+
+
 </style>
+
+
 </head>
 <body>
     <div></div>
@@ -195,6 +235,11 @@
                 <h2 class="text-center">Map of Current Accidents</h2>
             </div>
         </div><iframe allowfullscreen="" frameborder="0" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyDEoqYdMxy9glgnny_X1WMcJDFYf3lAHtw&amp;q=7.8731%2C+80.7718&amp;zoom=7" width="100%" height="450"></iframe></div>
+
+        <div>
+           <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+        </div>
+
     <div class="highlight-blue" style="background-color: rgb(8,49,129);"></div>
     <div class="footer-dark" style="background-color: #0b0d39;">
         <footer>
@@ -207,6 +252,7 @@
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/js/smart-forms.min.js"></script>
     <script src="assets/js/script.min.js"></script>
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 </body>
 
 </html>

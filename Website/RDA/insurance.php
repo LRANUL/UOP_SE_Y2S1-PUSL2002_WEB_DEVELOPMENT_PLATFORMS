@@ -98,16 +98,12 @@
                                };
                               var map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
 
-                              var marker = new google.maps.Marker({position: { lat: 6.8211, lng: 80.0409 }});
-
+                              var marker = new google.maps.Marker(
+                                {position: { lat: 6.8211, lng: 80.0409 },
+                                map:map
+                              });
 
                                marker.setMap(map);
-
-                                }
-
-                              for (let i =0; i <= 5; i++) {
-                               var marker = new google.maps.Marker({position: { lat: 5.8211, lng: 80.0409 }});
-                                marker.setMap(map);
                                 }
                            </script>
                          <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC3092MJgdnw35zv9y4jU2bWsRXq1z3-PU&callback=myMap">
