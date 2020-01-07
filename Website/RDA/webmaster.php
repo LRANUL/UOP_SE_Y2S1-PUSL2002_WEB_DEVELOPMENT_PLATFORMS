@@ -1,3 +1,17 @@
+<?php
+
+
+//sample values for the graph
+$dataPoints = array( 
+	array("label"=>"Insurance", "y"=>30.7),
+	array("label"=>"Police", "y"=>20.6),
+	array("label"=>"Custeomer Care", "y"=>23.9),
+    array("label" =>"User","y"=> 24.8)
+);
+ 
+
+  ?>
+
 <!DOCTYPE html>
 <html>
 
@@ -17,6 +31,33 @@
     <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
     <link rel="stylesheet" href="assets/css/styles.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+     
+     <script>
+   window.onload = function() {
+ 
+ 
+var chart = new CanvasJS.Chart("piechart", {
+	theme: "dark2",
+	animationEnabled: true,
+	title: {
+		text: "The Usage of the website"
+	},
+	data: [{
+		type: "pie",
+		indexLabel: "{y}",
+		indexLabelPlacement: "inside",
+		indexLabelFontColor: "#36454F",
+		indexLabelFontSize: 18,
+		indexLabelFontWeight: "bold",
+		showInLegend: true,
+		legendText: "{label}",
+		dataPoints: <?php echo json_encode($dataPoints, JSON_NUMERIC_CHECK); ?>
+	}]
+});
+chart.render();
+ }
+</script>
+
 </head>
 
 <body>
@@ -111,6 +152,10 @@
         </div>
     </div>
     <div>
+       <div id="piechart" style="height: 350px; width: 100%;"></div>
+    </div>
+
+    <div>
         <div class="container">
             <div class="row">
                 <div class="col-md-12"></div>
@@ -129,6 +174,7 @@
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/js/smart-forms.min.js"></script>
     <script src="assets/js/script.min.js"></script>
+    <script src="assets/js/jquery.canvasjs.min.js"></script>
 </body>
 
 </html>
