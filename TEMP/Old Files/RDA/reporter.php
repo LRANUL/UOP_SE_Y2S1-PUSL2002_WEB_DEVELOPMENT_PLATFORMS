@@ -9,16 +9,16 @@ session_start();
   <title>RDA - Reporter</title>
   <meta name="description"
   content="Road Development Authority, Accident Management Department is Sri Lankan's Largest Accident Management and Reporting Community ! ">
-  <link rel="icon" type="image/png" sizes="1500x1500" href="../assets/img/RDAAMS_logo.png">
-  <link rel="icon" type="image/png" sizes="1500x1500" href="../assets/img/RDAAMS_logo.png">
-  <link rel="icon" type="image/png" sizes="undefinedxundefined" href="../assets/img/RDAAMS_logo.png">
-  <link rel="icon" type="image/png" sizes="undefinedxundefined" href="../assets/img/RDAAMS_logo.png">
-  <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.min.css">
+  <link rel="icon" type="image/png" sizes="1500x1500" href="assets/img/RDAAMS_logo.png">
+  <link rel="icon" type="image/png" sizes="1500x1500" href="assets/img/RDAAMS_logo.png">
+  <link rel="icon" type="image/png" sizes="undefinedxundefined" href="assets/img/RDAAMS_logo.png">
+  <link rel="icon" type="image/png" sizes="undefinedxundefined" href="assets/img/RDAAMS_logo.png">
+  <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
   <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Bitter:400,700">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700">
-  <link rel="stylesheet" href="../assets/fonts/font-awesome.min.css">
-  <link rel="stylesheet" href="../assets/css/styles.min.css">
+  <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
+  <link rel="stylesheet" href="assets/css/styles.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
 </head>
 
@@ -27,7 +27,7 @@ session_start();
     <div class="header-blue">
       <nav class="navbar navbar-light navbar-expand-md navigation-clean-search">
         <div class="container-fluid"><a class="navbar-brand" href="home"><img class="wobble animated"
-          src="../assets/img/RDAAMS_logo.png" style="background-size: contain;width: 90px;"
+          src="assets/img/RDAAMS_logo.png" style="background-size: contain;width: 90px;"
           loading="eager"></a><button data-toggle="collapse" class="navbar-toggler"
           data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span
           class="navbar-toggler-icon text-white"></span></button>
@@ -311,7 +311,7 @@ session_start();
                                                 map.setCenter(LatLng)
                                                 src="https://www.google.com/maps/embed/v1/view?key=AIzaSyDEoqYdMxy9glgnny_X1WMcJDFYf3lAHtw&amp;center=7.8731,80.7718&amp;zoom=7";
                                                 width="100%" height="450"
-                                                style="background-image: url(&quot;../assets/img/RDAAMS_logo.png&quot;);background-size: contain;background-repeat: no-repeat;background-position: center;"></iframe>
+                                                style="background-image: url(&quot;assets/img/RDAAMS_logo.png&quot;);background-size: contain;background-repeat: no-repeat;background-position: center;"></iframe>
                                               </div>
                                             </div>
                                           </div>
@@ -321,10 +321,10 @@ session_start();
                                           <p class="text-center copyright">Road Development Authority - Accident Management Department © 2020</p>
                                         </div>
                                         <div class="card"></div>
-                                        <script src="../assets/js/jquery.min.js"></script>
-                                        <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
-                                        <script src="../assets/js/smart-forms.min.js"></script>
-                                        <script src="../assets/js/script.min.js"></script>
+                                        <script src="assets/js/jquery.min.js"></script>
+                                        <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+                                        <script src="assets/js/smart-forms.min.js"></script>
+                                        <script src="assets/js/script.min.js"></script>
                                         <script>
                                         // Note: This example requires that you consent to location sharing when
                                         // prompted by your browser. If you see the error "The Geolocation service
