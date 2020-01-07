@@ -107,7 +107,7 @@
     <div class="text-white bg-dark map-clean">
         <div class="container">
             <div id="collapse-1" class="collapse">
-                <h2 class="text-center">Locations</h2><iframe allowfullscreen="" frameborder="0" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyDaEw6o8OhJvRQnTF3gI_tibMejtfasOlY&amp;q=7.8731%2C+80.7718&amp;zoom=7" width="100%" height="450"></iframe></div>
+                <h2 class="text-center">Locations</h2><iframe allowfullscreen="" frameborder="0" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyDEoqYdMxy9glgnny_X1WMcJDFYf3lAHtw&amp;q=7.8731%2C+80.7718&amp;zoom=7" width="100%" height="450"></iframe></div>
         </div>
     </div>
     <div>

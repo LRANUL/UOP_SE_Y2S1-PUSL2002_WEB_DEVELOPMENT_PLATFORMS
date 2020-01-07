@@ -194,7 +194,7 @@
             <div class="intro">
                 <h2 class="text-center">Map of Current Accidents</h2>
             </div>
-        </div><iframe allowfullscreen="" frameborder="0" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyDaEw6o8OhJvRQnTF3gI_tibMejtfasOlY&amp;q=7.8731%2C+80.7718&amp;zoom=7" width="100%" height="450"></iframe></div>
+        </div><iframe allowfullscreen="" frameborder="0" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyDEoqYdMxy9glgnny_X1WMcJDFYf3lAHtw&amp;q=7.8731%2C+80.7718&amp;zoom=7" width="100%" height="450"></iframe></div>
     <div class="highlight-blue" style="background-color: rgb(8,49,129);"></div>
     <div class="footer-dark" style="background-color: #0b0d39;">
         <footer>
