@@ -1,11 +1,3 @@
-
--- Database Name Addreviation Long Form: Accident Assistance Web Application
--- Creating new database
-CREATE DATABASE RDA_DB;
-
--- Accessing newly created database
-USE RDA_DB;
-
 -- Creating Table 1 - Driver
 CREATE TABLE Driver(
   NIC VARCHAR(12) NOT NULL,
@@ -35,7 +27,6 @@ Values (2001345796, "Rohan", "Thomas", "1980-02-16", "Rohan12@gmail.com", 076348
 
 
 CREATE TABLE USERS (
- id INT(11) NOT NULL AUTO_INCREMENT,
  NIC VARCHAR(12) NOT NULL,
  firstname VARCHAR(100),
  email VARCHAR(100) NULL DEFAULT NULL,
@@ -43,10 +34,13 @@ CREATE TABLE USERS (
 PRIMARY KEY (NIC)
 )
 ENGINE=InnoDB
-AUTO_INCREMENT=1
 ;
 
 -- BELOW LINE NOT TESTED WITH SCENATIO, will need to make changes
+
+
+
+
 
 -- Creating Table 2 - Report
 CREATE TABLE Report(
