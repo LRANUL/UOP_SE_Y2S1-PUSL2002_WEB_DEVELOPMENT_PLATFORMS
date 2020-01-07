@@ -76,9 +76,51 @@
                 </div>
                 <div class="col-md-3">
                     <div class="card">
-                        <div class="card-body text-white bg-danger" data-bs-hover-animate="pulse">
-                            <h4 class="text-center text-white card-title"><a style="text-decoration: none " href="Insurance_Accident.html">Accidents</a> </h4>
+                       <button type="button" class="btn btn-info btn-lg bg-danger" data-toggle="modal" data-target="#Accidents">
+                          <div class="card-body text-white bg-danger" data-bs-hover-animate="pulse">
+                            <h5 class="text-center card-title">Accidents</h5>
+                          </div>
+                     </div>
+                      <div class="modal fade" id="Accidents" role="dialog">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                           <div class="modal-header">
+                                <h4 class="modal-title">Accidents</h4>
+                           </div>
+                               <div class="modal-body">
+                                 <div id="googleMap" style="width:100%;height:400px;"></div>
+
+                            <script>
+                              function myMap() {
+                              var mapProp= {
+                               center:new google.maps.LatLng(6.8211,80.0409),
+                               zoom:8,
+                               };
+                              var map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
+
+                              var marker = new google.maps.Marker({position: { lat: 6.8211, lng: 80.0409 }});
+
+
+                               marker.setMap(map);
+
+                                }
+
+                              for (let i =0; i <= 5; i++) {
+                               var marker = new google.maps.Marker({position: { lat: 5.8211, lng: 80.0409 }});
+                                marker.setMap(map);
+                                }
+                           </script>
+                         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC3092MJgdnw35zv9y4jU2bWsRXq1z3-PU&callback=myMap">
+                         </script>
+
+
+                               </div>
+                             <div class="modal-footer">
+                               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                             </div>
                         </div>
+                    </div>
+                        </button>
                     </div>
                 </div>
                 <div class="col-md-3">
