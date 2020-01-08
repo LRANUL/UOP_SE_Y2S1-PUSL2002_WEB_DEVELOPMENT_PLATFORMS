@@ -89,6 +89,7 @@ CREATE TABLE Complaint(
   NIC VARCHAR(12) NOT NULL,
   Type VARCHAR(10),
   Description TINYTEXT,
+  Status VARCHAR(20),
   PRIMARY KEY (ID, NIC),
   FOREIGN KEY (NIC) REFERENCES Driver(NIC)
 )ENGINE=INNODB;
@@ -99,9 +100,9 @@ ALTER TABLE Complaint AUTO_INCREMENT = 6000000;
 
 -- Inserting records into Table 4 - Complaint
 INSERT INTO Complaint(NIC, Type, Description)
-VALUES (7835404537, "Error","Can''t login"),
-       (7835404537, "Error","Can''t login"),
-       (7835404537, "Error","Can''t login");
+VALUES (7835404537, "Car","Flat Tire", 'Help Sent'),
+       (5786227481, "Car","Breakdown", 'Pending'),
+       (5786227481, "Bus","Accident", 'Pending');
 
 
 
