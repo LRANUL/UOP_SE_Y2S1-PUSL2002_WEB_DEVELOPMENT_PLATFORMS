@@ -79,10 +79,8 @@ $Oresult=mysqli_query($conn, $ongoing);
 
                                   })
                                  }
-                                
 
                                </script>
-
 </head>
 
 <body>
@@ -112,7 +110,7 @@ $Oresult=mysqli_query($conn, $ongoing);
                             <h5 class="text-center card-title">Registered Users</h5>
                           </div>
                      </div>
-                      <div class="modal fade" id="RegisterModal" role="dialog">
+                      <div class="modal" id="RegisterModal" role="dialog">
                     <div class="modal-dialog modal-lg">
                         <div class="modal-content">
                            <div class="modal-header">
@@ -260,6 +258,7 @@ $Oresult=mysqli_query($conn, $ongoing);
                     </div>
                 </div>
                 <div class="col-md-3">
+                  <div class="card">
                      <button type="button" class="btn btn-info btn-lg bg-warning" data-toggle="modal" data-target="#ongoingModal">
                           <div class="card-body text-white bg-warning" data-bs-hover-animate="pulse">
                             <h4 class="text-center card-title">Ongoing</h4>
@@ -309,6 +308,7 @@ $Oresult=mysqli_query($conn, $ongoing);
                         </button>
                     </div>
                 </div>
+            </div>
     <div class="highlight-blue" style="background-color: rgb(84,176,99);">
         <div class="container-fluid">
             <div class="intro">
@@ -316,7 +316,7 @@ $Oresult=mysqli_query($conn, $ongoing);
             </div>
         </div>
     </div>
-    <div style="background-color: rgb(206,255,214);">
+    <div style="background-color: rgb(190,255,193);">
         <div class="container">
             <div class="row">
                 <div class="col-auto col-md-12 text-center align-self-center m-auto" style="background-color: rgb(206,255,214);">
@@ -328,9 +328,9 @@ $Oresult=mysqli_query($conn, $ongoing);
             </div>
         </div>
     </div>
-    <div class="text-white bg-dark map-clean" style="background-color: rgb(255,255,255);">
+    <div class="  map-clean" style="background-color: rgb(190,255,193);">
         <div class="container">
-            <div class="intro">
+            <div class="intro" style="background-color: rgb(84,176,99)";>
                 <h2 class="text-center">Location of Accident</h2>
             </div>
         
@@ -349,10 +349,10 @@ $Oresult=mysqli_query($conn, $ongoing);
                          </div>
                      </div>
 
-   <div class="highlight-blue" style="background-color: rgb(206,255,214);"></div>
+   <div class="highlight-blue" style="background-color: rgb(190,255,193);"></div>
     <div class="footer-dark" style="background-color: rgb(0,22,38);">
         <footer>
-            <div class="container">
+            <div class="container" style="text-align: center;">
                 <p class="copyright">Road Development Authority - Accident Management Department © 2020<br></p>
             </div>
         </footer>
