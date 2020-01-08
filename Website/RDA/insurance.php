@@ -12,7 +12,7 @@ $conn=mysqli_connect($host,$user,$password,$name);
  $users="SELECT * FROM driver";
  $Uresult= mysqli_query($conn,$users);
 
- $map="SELECT name, Logitude, Latitude from report";
+ $map="SELECT Longitude, Latitude from report";
  $MAresult=mysqli_query($conn,$map);
 
  $report="SELECT * FROM report";
@@ -72,8 +72,8 @@ $Oresult=mysqli_query($conn, $ongoing);
 
                                  function displaydata(data) {
                                   Array.prototype.foreach.call(data, function(data) {
-                                     var marker = new google.maps.Marker(
-                                          {position: new goggle.maps.LatLng(data.Logitude, data.Latitude),
+                                     let marker = new google.maps.Marker(
+                                          {position: new google.maps.LatLng(data.Longitude, data.Latitude),
                                          map:map
                                   });
 
@@ -335,10 +335,11 @@ $Oresult=mysqli_query($conn, $ongoing);
             </div>
         
                                         <div> 
-                                       <?php 
-                                       $data=$MAresult;
-                                       //$data=jason_encode($data,true);   // these two lines should be added in order for the markers to work but they produce errors
-                                       //echo '<div id="data">' . $allData. '</div>';
+                                       <?php
+                                       while($row = mysqli_fetch_assoc($MAresult))
+                                           $data[] = $row;
+                                       $data=json_encode($data,true);   // these two lines should be added in order for the markers to work but they produce errors
+                                       echo '<div id="data">' . $data. '</div>';
                                        ?>
 
 
