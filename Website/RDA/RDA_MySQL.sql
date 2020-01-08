@@ -99,7 +99,7 @@ ALTER TABLE Complaint AUTO_INCREMENT = 6000000;
 
 
 -- Inserting records into Table 4 - Complaint
-INSERT INTO Complaint(NIC, Type, Description)
+INSERT INTO Complaint(NIC, Type, Description, Status)
 VALUES (7835404537, "Car","Flat Tire", 'Help Sent'),
        (5786227481, "Car","Breakdown", 'Pending'),
        (5786227481, "Bus","Accident", 'Pending');
