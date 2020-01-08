@@ -54,7 +54,7 @@ CREATE TABLE Report(
 ALTER TABLE Report AUTO_INCREMENT = 0000001;
 
 -- Inserting records into Table 2 login- Report
-INSERT INTO Report(NIC, Severity, Type, Description, Date_Time, Longitude, Latitude)
+INSERT INTO Report(NIC, Severity, Type, Description, Date_Time, Longitude, Latitude, Status)
 VALUES (7835404537, 1, "Car", "A small accident with a small amount of damage", "2019/02/18 07:15:25", 79.980607, 6.834806, "Pending"),
 (5786227481, 3, "Bus", "An accident with many injuries", "2019/012/30 09:58:49", 80.583487, 7.254586, "Approved"),
 (7456780465, 2, "Bike", "A major accident with many injuries", "2019/10/11 11:03:52", 80.991042, 6.838624, "Help Sent");
