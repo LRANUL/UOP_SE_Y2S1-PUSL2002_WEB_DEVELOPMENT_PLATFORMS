@@ -111,7 +111,7 @@ $Oresult=mysqli_query($conn, $ongoing);
                           </div>
                      </div>
                       <div class="modal" id="RegisterModal" role="dialog">
-                    <div class="modal-dialog modal-lg">
+                    <div class="modal-dialog modal-xl">
                         <div class="modal-content">
                            <div class="modal-header">
                                 <h4 class="modal-title">Registered users</h4>
