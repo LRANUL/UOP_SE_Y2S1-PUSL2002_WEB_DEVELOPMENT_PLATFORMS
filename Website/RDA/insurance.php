@@ -18,16 +18,20 @@ $conn=mysqli_connect($host,$user,$password,$name);
  $report="SELECT * FROM report";
  $Rresult=mysqli_query($conn, $report);
 
- $Managed="SELECT * FROM report where Date_Time != CURDATE()";
+ $Managed="SELECT * FROM report where Status='Approved'";
  $Mresult=mysqli_query($conn,$Managed);
 
 
-$ongoing="SELECT * FROM report where Date_Time = CURDATE()";
+$ongoing="SELECT * FROM report where Status='Pending'";
 $Oresult=mysqli_query($conn, $ongoing);
 
+$qu1=" SELECT Type, count(*) AS number From reports Group BY Type";
+$result1=mysqli_query($conn,$qu1);
 
 
-
+//sample data
+$dataPoints = array( );
+ 
 ?>
 
 <!DOCTYPE html>
@@ -79,8 +83,32 @@ $Oresult=mysqli_query($conn, $ongoing);
 
                                   })
                                  }
+         </script>
 
-                               </script>
+          
+          <script>                   
+           google.charts.load('current', {'packages':['corechart']});  
+           google.charts.setOnLoadCallback(drawChart);  
+           function drawChart()  
+           {  
+          var data = google.visualization.arrayToDataTable([  
+           ['Type', 'Number'],  
+                          <?php  
+                          while($row = mysqli_fetch_array($result1))  
+                          {  
+                               echo "['".$row["Type"]."', ".$row["number"]."],";  
+                          }  
+                          ?>  
+                     ]);  
+                     var options = {  
+                      title: 'Total Number of Accidents' 
+                     };  
+                     var chart = new google.visualization.PieChart(document.getElementById('piechart'));  
+                     chart.draw(data, options);  
+           }  
+           </script>  
+
+</script>
 </head>
 
 <body>
@@ -328,6 +356,9 @@ $Oresult=mysqli_query($conn, $ongoing);
             </div>
         </div>
     </div>
+    <div class="container">
+      <div id="piechart" style="height: 350px; width: 100%; "></div>
+    </div>   
     <div class="  map-clean" style="background-color: rgb(190,255,193);">
         <div class="container">
             <div class="intro" style="background-color: rgb(84,176,99)";>
@@ -362,5 +393,8 @@ $Oresult=mysqli_query($conn, $ongoing);
     <script src="assets/js/smart-forms.min.js"></script>
     <script src="assets/js/script.min.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDEoqYdMxy9glgnny_X1WMcJDFYf3lAHtw&callback=myMap"></script>
+      <script src="assets/js/jquery.canvasjs.min.js"></script>
+      <script src="https://www.gstatic.com/charts/loader.js"></script>
+
 </body>
 </html>
