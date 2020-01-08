@@ -1,3 +1,35 @@
+<?php
+
+session_start();
+
+$host="localhost";
+$user="root";
+$password="";
+$name="rda_db";
+
+$conn=mysqli_connect($host,$user,$password,$name);
+
+ $users="SELECT * FROM driver";
+ $Uresult= mysqli_query($conn,$users);
+
+ $map="SELECT name, Logitude, Latitude from report";
+ $MAresult=mysqli_query($conn,$map);
+
+ $report="SELECT * FROM report";
+ $Rresult=mysqli_query($conn, $report);
+
+ $Managed="SELECT * FROM report where Date_Time != CURDATE()";
+ $Mresult=mysqli_query($conn,$Managed);
+
+
+$ongoing="SELECT * FROM report where Date_Time = CURDATE()";
+$Oresult=mysqli_query($conn, $ongoing);
+
+
+
+
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -17,9 +49,45 @@
     <link rel="stylesheet" href="staff/assets/fonts/font-awesome.min.css">
     <link rel="stylesheet" href="staff/assets/css/styles.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+
+    
+       <script>
+                              function myMap() {
+                              var mapProp= {
+                               center:new google.maps.LatLng(6.8211,80.0409),
+                               zoom:8,
+                               };
+                              var map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
+
+                              var marker = new google.maps.Marker(
+                                {position: { lat: 6.8211, lng: 80.0409 },
+                                map:map
+                              });
+
+                               marker.setMap(map);
+
+                               var data = JSON.parse(document,getElementByID('data').innerHTML);
+                               displaydata(data)
+                                }
+
+                                 function displaydata(data) {
+                                  Array.prototype.foreach.call(data, function(data) {
+                                     var marker = new google.maps.Marker(
+                                          {position: new goggle.maps.LatLng(data.Logitude, data.Latitude),
+                                         map:map
+                                  });
+
+                                  })
+                                 }
+                                
+
+                               </script>
+
 </head>
 
 <body>
+
+
     <div></div>
     <div class="card"></div>
     <div>
@@ -54,15 +122,29 @@
                                 <table class="table table-striped">
                                   <thead>
                                      <tr>
-                                       <th scope="col">Name</th>
-                                       <th scope="col"> Registragtion number</th>
+                                       <th scope="col">NIC</th>
+                                       <th scope="col">First Name</th>
+                                       <th scope="col">Last Name</th>
                                        <th scope="col"> Date of Birth</th>
+                                       <th scope="col">Email</th>
+                                       <th scope="col">Contact Number</th>
+                                       <th scope="col"> Insurance number</th>
+                                       <th scope="col"> License Number</th>
                                      </tr>
                                   </thead>
                                    <tbody>
-                                    <td>mark</td>
-                                    <td>102516546</td>
-                                    <td>12/14/12</td>
+                                   <tr>
+                                    <?php while ($record = mysqli_fetch_assoc($Uresult)) {?>
+                                      <td><?php echo $record['NIC']; ?></td>
+                                      <td><?php echo $record['name']; ?></td>
+                                      <td><?php echo $record['LastName']; ?></td>
+                                      <td><?php echo $record['DateOfBirth']; ?></td>
+                                      <td><?php echo $record['Email']; ?></td>
+                                      <td><?php echo $record['ContactNo']; ?></td>
+                                      <td><?php echo $record['InsuranceNo']; ?></td>
+                                      <td><?php echo $record['LicenseNo']; ?></td>
+                                  </tr>
+                                   <?php } ?>
                                    </tbody>
                                 </table>
                                </div>
@@ -78,39 +160,46 @@
                     <div class="card">
                        <button type="button" class="btn btn-info btn-lg bg-danger" data-toggle="modal" data-target="#Accidents">
                           <div class="card-body text-white bg-danger" data-bs-hover-animate="pulse">
-                            <h5 class="text-center card-title">Accidents</h5>
+                            <h5 class="text-center card-title">Accidents Report</h5>
                           </div>
                      </div>
                       <div class="modal fade" id="Accidents" role="dialog">
                     <div class="modal-dialog modal-lg">
                         <div class="modal-content">
                            <div class="modal-header">
-                                <h4 class="modal-title">Accidents</h4>
+                                <h4 class="modal-title">Accidentss</h4>
                            </div>
                                <div class="modal-body">
-                                 <div id="googleMap" style="width:100%;height:400px;"></div>
-
-                            <script>
-                              function myMap() {
-                              var mapProp= {
-                               center:new google.maps.LatLng(6.8211,80.0409),
-                               zoom:8,
-                               };
-                              var map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
-
-                              var marker = new google.maps.Marker(
-                                {position: { lat: 6.8211, lng: 80.0409 },
-                                map:map
-                              });
-
-                               marker.setMap(map);
-                                }
-                           </script>
-                         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC3092MJgdnw35zv9y4jU2bWsRXq1z3-PU&callback=myMap">
-                         </script>
-
-
+                                 <table class="table table-striped">
+                                  <thead>
+                                     <tr>
+                                      <th scope="col">ID</th>
+                                       <th scope="col">NID</th>
+                                       <th scope="col">Severity</th>
+                                       <th scope="col">Type</th>
+                                       <th scope="col">Description</th>
+                                       <th scope="col">Date_Time</th>
+                                       <th scope="col">Longitude</th>
+                                       <th scope="col">Latitude</th>
+                                     </tr>
+                                  </thead>
+                                   <tbody>
+                                <tr>
+                                    <?php while ($record = mysqli_fetch_assoc($Rresult)) {?>
+                                      <td><?php echo $record['ID']; ?></td>
+                                      <td><?php echo $record['NIC']; ?></td>
+                                      <td><?php echo $record['Severity']; ?></td>
+                                      <td><?php echo $record['Type']; ?></td>
+                                      <td><?php echo $record['Description']; ?></td>
+                                      <td><?php echo $record['Date_Time']; ?></td>
+                                      <td><?php echo $record['Longitude']; ?></td>
+                                      <td><?php echo $record['Latitude']; ?></td>
+                                  </tr>
+                                   <?php } ?>
+                                   </tbody>
+                                </table>
                                </div>
+                               
                              <div class="modal-footer">
                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                              </div>
@@ -136,19 +225,29 @@
                                 <table class="table table-striped">
                                   <thead>
                                      <tr>
-                                       <th scope="col">Name</th>
-                                       <th scope="col"> Registragtion number</th>
-                                       <th scope="col"> Date of Birth</th>
-                                       <th scope="col"> Accepted time</th>
+                                      <th scope="col">ID</th>
+                                       <th scope="col">NID</th>
+                                       <th scope="col">Severity</th>
+                                       <th scope="col">Type</th>
+                                       <th scope="col">Description</th>
+                                       <th scope="col">Date_Time</th>
+                                       <th scope="col">Longitude</th>
+                                       <th scope="col">Latitude</th>
                                      </tr>
                                   </thead>
                                    <tbody>
-                                    <tr>
-                                    <td>mark</td>
-                                    <td>102516546</td>
-                                    <td>12/14/12</td>
-                                    <td>10.00pm</td>
-                                    </tr>
+                                <tr>
+                                    <?php while ($record = mysqli_fetch_assoc($Mresult)) {?>
+                                      <td><?php echo $record['ID']; ?></td>
+                                      <td><?php echo $record['NIC']; ?></td>
+                                      <td><?php echo $record['Severity']; ?></td>
+                                      <td><?php echo $record['Type']; ?></td>
+                                      <td><?php echo $record['Description']; ?></td>
+                                      <td><?php echo $record['Date_Time']; ?></td>
+                                      <td><?php echo $record['Longitude']; ?></td>
+                                      <td><?php echo $record['Latitude']; ?></td>
+                                  </tr>
+                                   <?php } ?>
                                    </tbody>
                                 </table>
                                </div>
@@ -176,19 +275,29 @@
                                 <table class="table table-striped">
                                   <thead>
                                      <tr>
-                                       <th scope="col">Name</th>
-                                       <th scope="col"> Registragtion number</th>
-                                       <th scope="col"> Date of Birth</th>
-                                       <th scope="col"> Estimated time</th>
+                                      <th scope="col">ID</th>
+                                       <th scope="col">NID</th>
+                                       <th scope="col">Severity</th>
+                                       <th scope="col">Type</th>
+                                       <th scope="col">Description</th>
+                                       <th scope="col">Date_Time</th>
+                                       <th scope="col">Longitude</th>
+                                       <th scope="col">Latitude</th>
                                      </tr>
                                   </thead>
                                    <tbody>
                                     <tr>
-                                    <td>mark</td>
-                                    <td>102516546</td>
-                                    <td>12/14/12</td>
-                                    <td> 10 min</td>
+                                    <?php while ($record = mysqli_fetch_assoc($Oresult)) {?>
+                                      <td><?php echo $record['ID']; ?></td>
+                                      <td><?php echo $record['NIC']; ?></td>
+                                      <td><?php echo $record['Severity']; ?></td>
+                                      <td><?php echo $record['Type']; ?></td>
+                                      <td><?php echo $record['Description']; ?></td>
+                                      <td><?php echo $record['Date_Time']; ?></td>
+                                      <td><?php echo $record['Longitude']; ?></td>
+                                      <td><?php echo $record['Latitude']; ?></td>
                                     </tr>
+                                <?php  } ?>
                                    </tbody>
                                 </table>
                                </div>
@@ -212,10 +321,9 @@
             <div class="row">
                 <div class="col-auto col-md-12 text-center align-self-center m-auto" style="background-color: rgb(206,255,214);">
                     <nav class="navbar navbar-light navbar-expand-xl navigation-clean-button" style="background-color: rgb(206,255,214);">
-                        <div class="container"><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
-                            <div class="collapse navbar-collapse" id="navcol-1"><span class="navbar-text actions"> </span><span class="navbar-text actions"> <a class="btn btn-primary bg-success action-button" role="button" href="#" style="margin: 10px;">View Accident Reports</a></span></div>
-                        </div>
-                    </nav>
+                </div>
+                       
+                   </nav>
                 </div>
             </div>
         </div>
@@ -223,21 +331,35 @@
     <div class="text-white bg-dark map-clean" style="background-color: rgb(255,255,255);">
         <div class="container">
             <div class="intro">
-                <h2 class="text-center">Map</h2>
+                <h2 class="text-center">Location of Accident</h2>
             </div>
-        </div><iframe allowfullscreen="" frameborder="0" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyDEoqYdMxy9glgnny_X1WMcJDFYf3lAHtw&amp;q=7.8731%2C+80.7718&amp;zoom=7" width="100%" height="450"></iframe></div>
-    <div class="highlight-blue" style="background-color: rgb(206,255,214);"></div>
+        
+                                        <div> 
+                                       <?php 
+                                       $data=$MAresult;
+                                       //$data=jason_encode($data,true);   // these two lines should be added in order for the markers to work but they produce errors
+                                       //echo '<div id="data">' . $allData. '</div>';
+                                       ?>
+
+
+                                 <div id="googleMap" style="width:100%;height:450px;"></div>
+                             </div>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
+
+   <div class="highlight-blue" style="background-color: rgb(206,255,214);"></div>
     <div class="footer-dark" style="background-color: rgb(0,22,38);">
         <footer>
             <div class="container">
                 <p class="copyright">Road Development Authority - Accident Management Department © 2020<br></p>
             </div>
         </footer>
-    </div>
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/js/smart-forms.min.js"></script>
     <script src="assets/js/script.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDEoqYdMxy9glgnny_X1WMcJDFYf3lAHtw&callback=myMap"></script>
 </body>
-
 </html>
