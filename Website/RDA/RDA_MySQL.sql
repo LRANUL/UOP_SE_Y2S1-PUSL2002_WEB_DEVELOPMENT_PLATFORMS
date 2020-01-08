@@ -164,6 +164,8 @@ INSERT INTO EmployeeDetails(DateOfBirth,Street,City,Province)VALUES
 CREATE TABLE Police_Agent(
   NIC VARCHAR(12) NOT NULL,
   Name VARCHAR(30),
+  MiddleName VARCHAR(30),
+  LastName VARCHAR(50),
   Email VARCHAR(50) UNIQUE,
   ContactNo CHAR(10),
   EID INT(7),
