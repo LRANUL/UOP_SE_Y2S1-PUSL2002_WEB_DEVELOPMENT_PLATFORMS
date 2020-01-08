@@ -45,6 +45,7 @@ CREATE TABLE Report(
   Date_Time DATETIME,
   Longitude FLOAT(5),
   Latitude FLOAT(5),
+  Status VARCHAR(20),
   PRIMARY KEY (ID, NIC),
   FOREIGN KEY (NIC) REFERENCES Driver(NIC)
 )ENGINE=INNODB;
@@ -54,10 +55,14 @@ ALTER TABLE Report AUTO_INCREMENT = 0000001;
 
 -- Inserting records into Table 2 login- Report
 INSERT INTO Report(NIC, Severity, Type, Description, Date_Time, Longitude, Latitude)
-VALUES (7835404537, 1, "full", "A small accident with a small amount of damage", "2019/02/18 07:15:25", 79.980607, 6.834806),
-(5786227481, 3, "Third-party", "An accident with many injuries", "2019/012/30 09:58:49", 80.583487, 7.254586),
-(7456780465, 2, "full", "A major accident with many injuries", "2019/10/11 11:03:52", 80.991042, 6.838624);
+VALUES (7835404537, 1, "Car", "A small accident with a small amount of damage", "2019/02/18 07:15:25", 79.980607, 6.834806, "Pending"),
+(5786227481, 3, "Bus", "An accident with many injuries", "2019/012/30 09:58:49", 80.583487, 7.254586, "Approved"),
+(7456780465, 2, "Bike", "A major accident with many injuries", "2019/10/11 11:03:52", 80.991042, 6.838624, "Help Sent");
 
+/*
+  Possible Values for Status column in the Report Table:
+  Pending, Approved, Disapproved, Help Sent
+*/
 
 
 -- Creating Table 3 - ReportMedia
