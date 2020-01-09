@@ -18,20 +18,16 @@ $conn=mysqli_connect($host,$user,$password,$name);
  $report="SELECT * FROM report";
  $Rresult=mysqli_query($conn, $report);
 
- $Managed="SELECT * FROM report where Status='Approved'";
+ $Managed="SELECT * FROM report where Date_Time != CURDATE()";
  $Mresult=mysqli_query($conn,$Managed);
 
 
-$ongoing="SELECT * FROM report where Status='Pending'";
+$ongoing="SELECT * FROM report where Date_Time = CURDATE()";
 $Oresult=mysqli_query($conn, $ongoing);
 
-$qu1=" SELECT Type, count(*) AS number From reports Group BY Type";
-$result1=mysqli_query($conn,$qu1);
 
 
-//sample data
-$dataPoints = array( );
- 
+
 ?>
 
 <!DOCTYPE html>
@@ -75,7 +71,7 @@ $dataPoints = array( );
                                 }
 
                                  function displaydata(data) {
-                                  Array.prototype.foreach.call(data, function(data) {
+                                  Array.prototype.forEach.call(data, function(data) {
                                      let marker = new google.maps.Marker(
                                           {position: new google.maps.LatLng(data.Longitude, data.Latitude),
                                          map:map
@@ -83,32 +79,8 @@ $dataPoints = array( );
 
                                   })
                                  }
-         </script>
 
-          
-          <script>                   
-           google.charts.load('current', {'packages':['corechart']});  
-           google.charts.setOnLoadCallback(drawChart);  
-           function drawChart()  
-           {  
-          var data = google.visualization.arrayToDataTable([  
-           ['Type', 'Number'],  
-                          <?php  
-                          while($row = mysqli_fetch_array($result1))  
-                          {  
-                               echo "['".$row["Type"]."', ".$row["number"]."],";  
-                          }  
-                          ?>  
-                     ]);  
-                     var options = {  
-                      title: 'Total Number of Accidents' 
-                     };  
-                     var chart = new google.visualization.PieChart(document.getElementById('piechart'));  
-                     chart.draw(data, options);  
-           }  
-           </script>  
-
-</script>
+                               </script>
 </head>
 
 <body>
@@ -118,14 +90,18 @@ $dataPoints = array( );
     <div class="card"></div>
     <div>
         <div class="header-blue" style="background-color: rgb(190,255,193);background-size: contain;background-image: url(&quot;X&quot;);">
-            <nav class="navbar navbar-light navbar-expand-md navigation-clean-search" style="background-color: #005276;">
-                <div class="container-fluid"><a class="navbar-brand" href="#"><strong>RDA Accident Management - Insurance</strong><br></a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
-                    <div class="collapse navbar-collapse" id="navcol-1">
+            <nav class="navbar navbar-light navbar-expand-md navigation-clean-search">
+                <div class="container-fluid"><a class="navbar-brand" href="index.html"><img class="wobble animated" src="assets/img/RDAAMS_logo.png" style="background-size: contain;width: 90px;" loading="eager"></a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon text-white"></span></button>
+                    <div
+                            class="collapse navbar-collapse" id="navcol-1">
+                        <ul class="nav navbar-nav"></ul>
+                        <h5 style="color: rgb(255,255,255);"><strong>Road Development Authority</strong></h5>
                         <form class="form-inline mr-auto" target="_self">
                             <div class="form-group"><label for="search-field"></label></div>
-                        </form><a class="btn btn-light action-button" role="button" href="index">Sign Out</a></div>
-        </div>
-        </nav>
+                        </form>
+                        <span class="text-primary navbar-text"> <button class="btn btn-light text-white action-button" type="button"><a href="logout.php">Log Out</a></button></span></div>
+                </div>
+            </nav>
     </div>
     </div>
     <div style="background-color: rgb(190,255,193);">
@@ -356,9 +332,6 @@ $dataPoints = array( );
             </div>
         </div>
     </div>
-    <div class="container">
-      <div id="piechart" style="height: 350px; width: 100%; "></div>
-    </div>   
     <div class="  map-clean" style="background-color: rgb(190,255,193);">
         <div class="container">
             <div class="intro" style="background-color: rgb(84,176,99)";>
@@ -393,8 +366,5 @@ $dataPoints = array( );
     <script src="assets/js/smart-forms.min.js"></script>
     <script src="assets/js/script.min.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDEoqYdMxy9glgnny_X1WMcJDFYf3lAHtw&callback=myMap"></script>
-      <script src="assets/js/jquery.canvasjs.min.js"></script>
-      <script src="https://www.gstatic.com/charts/loader.js"></script>
-
 </body>
 </html>

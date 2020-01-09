@@ -1,4 +1,49 @@
+<?php
+require_once "config.php";
+if(isset($_POST['submit'])){
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    $type = $_POST['type'];
 
+
+    $sql = "select * from users where email = '".$email."'";
+    $rs = mysqli_query($conn,$sql);
+    $numRows = mysqli_num_rows($rs);
+
+    if($numRows  == 1){
+        $row = mysqli_fetch_assoc($rs);
+        if(password_verify($password,$row['Password'])) {
+            if ($type == "Police_Agent"){
+                session_start();
+            $_SESSION["email"] = $email;
+            header("Location: police");
+        }
+        else if($type == "Insurance_Agent"){
+        session_start();
+            $_SESSION["email"] = $email;
+            header("Location: insurance");
+        }
+        else if($type == "RDA_Agent"){
+            session_start();
+            $_SESSION["email"] = $email;
+            header("Location: agent");
+        }
+        else if($type == "Web_Master"){
+            session_start();
+            $_SESSION["email"] = $email;
+            header("Location: webmaster");
+        }
+        else{
+            echo '<script>alert("Wrong Password")</script>';
+        }
+    }
+    else{
+        echo '<script language="javascript">';
+        echo 'alert("Contact Support")';
+        echo '</script>';
+    }
+}}
+?>
 <!DOCTYPE html>
 <html>
 
@@ -32,15 +77,23 @@
 
     <div class="login-clean" style="background-image: url(&quot;assets/img/City%20BG.jpg&quot;);/*filter: blur(8px);*//*-webkit-filter: blur(8px);*/background-size: cover;background-repeat: no-repeat;background-position: center;filter: blur(0px);">
 <div style="text-align:center;background-color:white;">
-      <h3>- AUTHORISED PERSONNELS ONLY -</h3>
+      <h3>- AUTHORISED PERSONNEL'S ONLY -</h3>
         <h6>If You Came Here By Accident Please Follow This <a href="index">LINK</a> To Customer Page<br>
           UNAUTHORISED ACCESS IS STRICTLY PROHIBITED.</h6>
-    </div>    <form method="post">
-            <h3 class="text-center">Login to account</h3><select class="custom-select" required=""><optgroup label="Select Access"><option value="12">Sri Lanka Police</option><option value="13">Insurance/Assurance</option><option value="14">RDA Staff</option><option value="14">Administration</option></optgroup></select>
+    </div>
+        <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post" >
+            <h3 class="text-center">Login to account</h3>
+            <select class="custom-select" required="" name="type">
+                <optgroup label="Select Access">
+                    <option value="Police_Agent">Sri Lanka Police</option>
+                    <option value="Insurance_Agent">Insurance/Assurance</option>
+                    <option value="RDA_Agent">RDA Staff</option>
+                    <option value="Web_Master">Administration</option></optgroup>
+            </select>
             <div
                 class="form-group"><input class="form-control" type="email" name="email" placeholder="Email"></div>
     <div class="form-group"><input class="form-control" type="password" name="password" placeholder="Password"></div>
-    <div class="form-group"><button class="btn btn-outline-primary btn-block" data-bs-hover-animate="pulse" type="submit">Log In</button></div><a class="forgot" href="support">Forgot your email or password?</a></form>
+    <div class="form-group"><button class="btn btn-outline-primary btn-block" data-bs-hover-animate="pulse" type="submit" name="submit">Log In</button></div><a class="forgot" href="support">Forgot your email or password?</a></form>
     </div>
     <div class="card"></div>
     <div class="footer-clean">

@@ -1,8 +1,14 @@
 <!--
   Police Webpage coded by H.V.L.Hasanka
 -->
-
 <?php
+require_once "config.php";
+session_start();
+ if(!isset($_SESSION["email"]))
+ {
+      header("location: login");
+ }
+
 
   // Including the database connection file
 //  include_once("connect.php");
@@ -109,13 +115,7 @@ chart.render();
                   </button>
                   <div class="collapse navbar-collapse" id="navcol-1">
                       <form class="form-inline mr-auto" target="_self">
-                          <div class="form-group"><label for="search-field"></label></div>
-                      </form>
-                      <a class="btn btn-light action-button" role="button" href="#"
-                        style="color: black; border-color: black;">
-                        Sign Out</a>
-                  </div>
-              </div>
+<span class="text-primary navbar-text"> <button class="btn btn-light text-white action-button" type="button"><a href="logout.php">Log Out</a></button></span></div>
             </nav>
             <!-- Bootstrap Spinner -->
             <div style="position: absolute;

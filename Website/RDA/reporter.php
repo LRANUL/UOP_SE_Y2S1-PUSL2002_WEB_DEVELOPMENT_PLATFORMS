@@ -55,16 +55,8 @@ session_start();
 <script type="text/javascript">
     var markers = [
         {
-            "title": 'Alibaug',
             "lat": '18.641400',
-            "lng": '72.872200',
-            "description": 'Alibaug is a coastal town and a municipal council in Raigad District in the Konkan region of Maharashtra, India.'
-        },
-        {
-            "title": 'Lonavla',
-            "lat": '18.750000',
-            "lng": '73.416700',
-            "description": 'Lonavla'
+            "lng": '72.872200'
         }
     ];
     window.onload = function () {
@@ -122,7 +114,8 @@ session_start();
                         <h5 style="color: rgb(255,255,255);"><strong>Road Development Authority</strong></h5>
                         <form class="form-inline mr-auto" target="_self">
                             <div class="form-group"><label for="search-field"></label></div>
-                        </form><span class="text-primary navbar-text"> <button class="btn btn-light text-white action-button" type="button"><a href="logout.php">Log Out</a></button></span></div>
+                        </form>
+                        <span class="text-primary navbar-text"> <button class="btn btn-light text-white action-button" type="button"><a href="logout.php">Log Out</a></button></span></div>
         </div>
         </nav>
     </div>

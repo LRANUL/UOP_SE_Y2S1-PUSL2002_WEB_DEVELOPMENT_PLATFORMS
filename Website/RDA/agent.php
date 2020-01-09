@@ -1,3 +1,11 @@
+<?php
+
+require_once "config.php";
+session_start();
+if (!isset($_SESSION["email"])) {
+    header("location: login");
+}
+?>
 <!DOCTYPE html>
 <html>
 
@@ -30,7 +38,7 @@
                         class="collapse navbar-collapse" id="navcol-1">
                         <form class="form-inline mr-auto" target="_self">
                             <div class="form-group"><label for="search-field"></label></div>
-                        </form><span class="navbar-text"><a class="login" href="#">Log Out</a></span></div>
+                            <span class="text-primary navbar-text"> <button class="btn btn-light text-white action-button" type="button"><a href="logout.php">Log Out</a></button></span></div>
         </div>
         </nav>
         <!--Comment-->
