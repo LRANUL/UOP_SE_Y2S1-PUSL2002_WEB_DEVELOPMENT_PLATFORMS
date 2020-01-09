@@ -33,8 +33,10 @@ if(isset($_POST['submit'])){
 
 	if($numRows  == 1){
 		$row = mysqli_fetch_assoc($rs);
-		if(password_verify($password,$row['password'])){
-      header("Location: reporter");
+		if(password_verify($password,$row['Password'])){
+            session_start();
+            $_SESSION["email"] = $email;
+         header("Location: reporter");
 
 		}
 		else{

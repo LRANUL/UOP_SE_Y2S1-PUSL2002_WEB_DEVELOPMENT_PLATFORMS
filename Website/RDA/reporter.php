@@ -1,11 +1,32 @@
 <?php
+require_once "config.php";
 session_start();
  if(!isset($_SESSION["email"]))
  {
       header("location: login");
  }
+ else {
+     $email = ($_SESSION["email"]);
+     $sql = "select name,LicenseNo,ContactNo,NIC from driver where email = '" . $email . "'";
+     if ($result = mysqli_query($conn, $sql)) {
+         if (mysqli_num_rows($result) > 0) {
+
+             while ($row = mysqli_fetch_array($result)) {
+                 $nic = $row['NIC'];
+                 $phone = $row['ContactNo'];
+                 $license = $row['LicenseNo'];
+                 $name = $row['name'];
+
+                 mysqli_free_result($result);
+             }
+         } else {
+             echo '<script>alert("Somethings Wrong with your Account Contact Support")</script>';
+
+         }
+     }
+ }
  ?>
-?>
+
 <!DOCTYPE html>
 <html>
 
@@ -30,6 +51,67 @@ session_start();
     <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+<script type="text/javascript">
+    var markers = [
+        {
+            "title": 'Alibaug',
+            "lat": '18.641400',
+            "lng": '72.872200',
+            "description": 'Alibaug is a coastal town and a municipal council in Raigad District in the Konkan region of Maharashtra, India.'
+        },
+        {
+            "title": 'Lonavla',
+            "lat": '18.750000',
+            "lng": '73.416700',
+            "description": 'Lonavla'
+        }
+    ];
+    window.onload = function () {
+        var mapOptions = {
+            center: new google.maps.LatLng(markers[0].lat, markers[0].lng),
+            zoom: 8,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        var infoWindow = new google.maps.InfoWindow();
+        var latlngbounds = new google.maps.LatLngBounds();
+        var geocoder = geocoder = new google.maps.Geocoder();
+        var map = new google.maps.Map(document.getElementById("dvMap"), mapOptions);
+        for (var i = 0; i < markers.length; i++) {
+            var data = markers[i]
+            var myLatlng = new google.maps.LatLng(data.lat, data.lng);
+            var marker = new google.maps.Marker({
+                position: myLatlng,
+                map: map,
+                title: data.title,
+                draggable: true,
+                animation: google.maps.Animation.DROP
+            });
+            (function (marker, data) {
+                google.maps.event.addListener(marker, "click", function (e) {
+                    infoWindow.setContent(data.description);
+                    infoWindow.open(map, marker);
+                });
+                google.maps.event.addListener(marker, "dragend", function (e) {
+                    var lat, lng, address;
+                    geocoder.geocode({ 'latLng': marker.getPosition() }, function (results, status) {
+                        if (status == google.maps.GeocoderStatus.OK) {
+                            lat = marker.getPosition().lat();
+                            lng = marker.getPosition().lng();
+                            address = results[0].formatted_address;
+                            alert("Latitude: " + lat + "\nLongitude: " + lng + "\nAddress: " + address);
+                        }
+                    });
+                });
+            })(marker, data);
+            latlngbounds.extend(marker.position);
+        }
+        var bounds = new google.maps.LatLngBounds();
+        map.setCenter(latlngbounds.getCenter());
+        map.fitBounds(latlngbounds);
+    }
+</script>
+</div>
     <div>
         <div class="header-blue">
             <nav class="navbar navbar-light navbar-expand-md navigation-clean-search">
@@ -40,7 +122,7 @@ session_start();
                         <h5 style="color: rgb(255,255,255);"><strong>Road Development Authority</strong></h5>
                         <form class="form-inline mr-auto" target="_self">
                             <div class="form-group"><label for="search-field"></label></div>
-                        </form><span class="text-primary navbar-text"> <button class="btn btn-light text-white action-button" type="button">Log Out</button></span></div>
+                        </form><span class="text-primary navbar-text"> <button class="btn btn-light text-white action-button" type="button"><a href="logout.php">Log Out</a></button></span></div>
         </div>
         </nav>
     </div>
@@ -142,11 +224,11 @@ session_start();
                                     <div class="collapse" id="collapse-1">
                                         <div class="card">
                                             <div class="card-body">
-                                                <h6 class="text-muted card-subtitle mb-2">Name:&nbsp;<label>Lable Name</label></h6>
-                                                <h6 class="text-muted card-subtitle mb-2">Email:&nbsp;<label>Lable Email</label></h6>
-                                                <h6 class="text-muted card-subtitle mb-2">NIC:&nbsp;<label>Lable NIC</label></h6>
-                                                <h6 class="text-muted card-subtitle mb-2">Mobile:&nbsp;<label>Lable Phone</label></h6>
-                                                <h6 class="text-muted card-subtitle mb-2">License No:&nbsp;<label>Lable License</label></h6><button class="btn btn-dark text-right" data-toggle="modal" data-target="#updProfile" type="button">Update</button>
+                                                <h6 class="text-muted card-subtitle mb-2">Name:&nbsp;<label class="control-label"><?php echo $name; ?></label></h6>
+                                                <h6 class="text-muted card-subtitle mb-2">Email:&nbsp;<label class="control-label"><?php echo $email; ?></label></h6>
+                                                <h6 class="text-muted card-subtitle mb-2">NIC:&nbsp;<label class="control-label"><?php echo $nic; ?></label></h6>
+                                                <h6 class="text-muted card-subtitle mb-2">Mobile:&nbsp;<label class="control-label"><?php echo $phone; ?></label></h6>
+                                                <h6 class="text-muted card-subtitle mb-2">License No:&nbsp;<label class="control-label"><?php echo $license; ?></label></h6><button class="btn btn-dark text-right" data-toggle="modal" data-target="#updProfile" type="button">Update</button>
                                                 <div class="modal fade" role="dialog"
                                                     tabindex="-1" id="updProfile">
                                                     <div class="modal-dialog" role="document">
@@ -193,6 +275,7 @@ session_start();
                                         </form>
                                     </div>
                                 </div>
+                                </div>
             </div>
             </td>
             </tr>
@@ -200,8 +283,7 @@ session_start();
             </table>
         </div>
     </div>
-    <div class="col-md-6"><iframe class="bg-primary border rounded border-primary shadow-lg" allowfullscreen="" frameborder="0" src="https://www.google.com/maps/embed/v1/view?key=AIzaSyDEoqYdMxy9glgnny_X1WMcJDFYf3lAHtw&amp;center=7.8731%2C+80.7718&amp;zoom=7" width="100%"
-            height="450" style="background-image: url(&quot;assets/img/RDAAMS_logo.png&quot;);background-size: contain;background-repeat: no-repeat;background-position: center;"></iframe></div>
+            <div id="dvMap" style="width: 100%; height: 500px">
     </div>
     </div>
     </div>
