@@ -1,13 +1,6 @@
 <?php
 
-session_start();
-
-$host="localhost";
-$user="root";
-$password="";
-$name="rda_db";
-
-$conn=mysqli_connect($host,$user,$password,$name);
+include_Once('config.php');
 
  $users="SELECT * FROM driver";
  $Uresult= mysqli_query($conn,$users);
@@ -18,14 +11,28 @@ $conn=mysqli_connect($host,$user,$password,$name);
  $report="SELECT * FROM report";
  $Rresult=mysqli_query($conn, $report);
 
- $Managed="SELECT * FROM report where Date_Time != CURDATE()";
+ $Managed="SELECT * FROM Managed_Reports";
  $Mresult=mysqli_query($conn,$Managed);
 
 
-$ongoing="SELECT * FROM report where Date_Time = CURDATE()";
+$ongoing="SELECT * FROM report where Status = 'Pending' OR Status='Help Sent'";
 $Oresult=mysqli_query($conn, $ongoing);
 
+$graph="SELECT Type, count(*) as number from report Group by Type";
+$gresult=mysqli_query($conn,$graph);
 
+$markers=array();
+
+$query =  $conn->query("SELECT Type,Longitude,Latitude,Description FROM vreport");
+
+while( $row = $query->fetch_assoc() ){
+    $type = $row['Type'];
+    $desc = $row['Description'];
+    $longitude = $row['Longitude'];
+    $latitude = $row['Latitude'];
+
+    $markers[]=array( 'type'=>$type, 'lat'=>$latitude, 'lng'=>$longitude,'desc'=>$desc);
+}
 
 
 ?>
@@ -51,36 +58,85 @@ $Oresult=mysqli_query($conn, $ongoing);
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
 
     
-       <script>
-                              function myMap() {
-                              var mapProp= {
-                               center:new google.maps.LatLng(6.8211,80.0409),
-                               zoom:8,
-                               };
-                              var map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script> 
+  
+    <script>
+      //this for the creation of the charts
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
 
-                              var marker = new google.maps.Marker(
-                                {position: { lat: 6.8211, lng: 80.0409 },
-                                map:map
-                              });
+      function drawChart() {
 
-                               marker.setMap(map);
+        var data = google.visualization.arrayToDataTable([
+          ['Type', 'Number'],
+          <?php
+          while ($row=mysqli_fetch_array($gresult))
+          {
+            echo "['".$row["Type"]."',".$row["number"]."],";
+          }
 
-                               var data = JSON.parse(document,getElementByID('data').innerHTML);
-                               displaydata(data)
-                                }
+          ?>        
+        ]);
 
-                                 function displaydata(data) {
-                                  Array.prototype.forEach.call(data, function(data) {
-                                     let marker = new google.maps.Marker(
-                                          {position: new google.maps.LatLng(data.Longitude, data.Latitude),
-                                         map:map
-                                  });
+        var options = {
+          title: '% Of All The Types Vehicles In An Accident ',
+          is3D:true
+        };
 
-                                  })
-                                 }
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
 
-                               </script>
+        chart.draw(data, options);
+      }
+    </script>
+
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDEoqYdMxy9glgnny_X1WMcJDFYf3lAHtw"></script>
+    <script type="text/javascript">
+    var map;
+    var Markers = {};
+    var infowindow;
+    var locations = [
+        <?php for($i=0;$i<sizeof($markers);$i++){ $j=$i+1;?>
+        [
+            'RDA AA',
+            "'<h6><?php echo $markers[$i]['type'];?><p>Accident</p>",
+        <?php echo $markers[$i]['lat'];?>,
+            <?php echo $markers[$i]['lng'];?>,
+        ]<?php if($j!=sizeof($markers))echo ","; }?>
+    ];
+    var origin = new google.maps.LatLng(locations[0][2], locations[0][3]);
+    function initialize() {
+        var mapOptions = {
+            zoom: 9,
+            center: origin
+        };
+        map = new google.maps.Map(document.getElementById('dvMap'), mapOptions);
+        infowindow = new google.maps.InfoWindow();
+        for(i=0; i<locations.length; i++) {
+            var position = new google.maps.LatLng(locations[i][2], locations[i][3]);
+            var marker = new google.maps.Marker({
+                position: position,
+                map: map,
+            });
+            google.maps.event.addListener(marker, 'click', (function(marker, i) {
+                return function() {
+                    infowindow.setContent(locations[i][1]);
+                    infowindow.setOptions({maxWidth: 200});
+                    infowindow.open(map, marker);
+                }
+            }) (marker, i));
+            Markers[locations[i][4]] = marker;
+        }
+        locate(0);
+    }
+    function locate(marker_id) {
+        var myMarker = Markers[marker_id];
+        var markerPosition = myMarker.getPosition();
+        map.setCenter(markerPosition);
+        google.maps.event.trigger(myMarker, 'click');
+    }
+    google.maps.event.addDomListener(window, 'load', initialize);
+</script>
+
 </head>
 
 <body>
@@ -166,10 +222,10 @@ $Oresult=mysqli_query($conn, $ongoing);
                           </div>
                      </div>
                       <div class="modal fade" id="Accidents" role="dialog">
-                    <div class="modal-dialog modal-lg">
+                    <div class="modal-dialog modal-xl">
                         <div class="modal-content">
                            <div class="modal-header">
-                                <h4 class="modal-title">Accidentss</h4>
+                                <h4 class="modal-title">Accidents</h4>
                            </div>
                                <div class="modal-body">
                                  <table class="table table-striped">
@@ -196,6 +252,36 @@ $Oresult=mysqli_query($conn, $ongoing);
                                       <td><?php echo $record['Date_Time']; ?></td>
                                       <td><?php echo $record['Longitude']; ?></td>
                                       <td><?php echo $record['Latitude']; ?></td>
+                        
+                                      <td>
+                                        <form action="" method="POST">
+                                        <input type="submit" value="Accept" name="Accept" />
+                                        
+                                          <?php
+                                           if(isset($_POST['Acceptt'])){
+                                          $id=$record['ID'];
+                                          $nic=$record['NIC'];
+                                          $Severity=$record['Severity'];
+                                          $type=$record['Type'];
+                                          $Longitude=$record['Longitude'];
+                                          $Latitude=$record['Latitude'];
+                                          $inser="INSERT INTO Managed_Reports (NIC, Severity, Type, Longitude, Latitude)  VALUES('$nic', '$Severity', '$type', '$Longitude', '$Latitude')";
+                                          $res=mysql_query($conn,$inser);
+                                          }?>
+                                      </form>
+                                      </td>
+                                      <td>
+                                        <form action="" method="POST">
+                                        <input type="submit" value="Decline" name="Decline" />
+                                       
+                                            <?php
+                                            $ni=$record['NIC'];
+                                            if(isset($_POST['Decline'])){
+                                            $delet='DELETE  FROM report Where ID="'.$record['NIC']. '" ';
+                                          $re=mysqli_query($conn,$delet);
+                                        }?>
+                                         </form>
+                                      </td>
                                   </tr>
                                    <?php } ?>
                                    </tbody>
@@ -332,27 +418,21 @@ $Oresult=mysqli_query($conn, $ongoing);
             </div>
         </div>
     </div>
+    <div class="container">
+   <div id="piechart" style=" width: 100%; height: 400px;"></div>
+   </div> 
     <div class="  map-clean" style="background-color: rgb(190,255,193);">
         <div class="container">
             <div class="intro" style="background-color: rgb(84,176,99)";>
                 <h2 class="text-center">Location of Accident</h2>
             </div>
-        
-                                        <div> 
-                                       <?php
-                                       while($row = mysqli_fetch_assoc($MAresult))
-                                           $data[] = $row;
-                                       $data=json_encode($data,true);   // these two lines should be added in order for the markers to work but they produce errors
-                                       echo '<div id="data">' . $data. '</div>';
-                                       ?>
-
-
-                                 <div id="googleMap" style="width:100%;height:450px;"></div>
-                             </div>
-                                 </div>
-                             </div>
-                         </div>
-                     </div>
+            <div>
+               <div id="dvmap" style="width:100%;height:450px;"></div>
+            </div>
+        </div>
+    </div>
+    </div>
+  </div>
 
    <div class="highlight-blue" style="background-color: rgb(190,255,193);"></div>
     <div class="footer-dark" style="background-color: rgb(0,22,38);">
@@ -364,7 +444,8 @@ $Oresult=mysqli_query($conn, $ongoing);
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/js/smart-forms.min.js"></script>
-    <script src="assets/js/script.min.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDEoqYdMxy9glgnny_X1WMcJDFYf3lAHtw&callback=myMap"></script>
+    <script src="assets/js/script.min.js"></script>  
+    <script src="assets/js/jquery.canvasjs.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
 </body>
 </html>
