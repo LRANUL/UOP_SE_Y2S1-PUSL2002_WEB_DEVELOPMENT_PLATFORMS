@@ -55,10 +55,15 @@ ALTER TABLE Report AUTO_INCREMENT = 0000001;
 
 -- Inserting records into Table 2 login- Report
 INSERT INTO Report(NIC, Severity, Type, Description, Date_Time, Longitude, Latitude, Status)
-VALUES (7835404537, 1, "Car", "A small accident with a small amount of damage", "2019/02/18 07:15:25", 79.980607, 6.834806, "Pending"),
-      (5786227481, 3, "Bus", "An accident with many injuries", "2019/12/30 09:58:49", 80.583487, 7.254586, "Approved"),
-      (3408672316, 3, "SUV", "An accident with vehical damage", "2019/12/30 19:58:49", 80.683487, 7.154586,"Approved"),
-      (7456780465, 2, "Bike", "A major accident with many injuries", "2019/10/11 11:03:52", 80.991042, 6.838624, "Help Sent");
+VALUES
+      (7835404537, 1, "Car", "A small accident with a small amount of damage", "2019/02/18 07:15:25", 79.980607, 6.834806, "Approved"),
+      (5786227481, 3, "Bus", "An accident with many injuries", "2019/12/30 09:58:49", 80.583487, 7.254586, "Completed"),
+      (3408672316, 3, "SUV", "An accident with vehical damage", "2019/12/30 19:58:49", 80.683487, 7.154586,"Completed"),
+      (7456780465, 2, "Bus", "A major accident with many injuries", "2019/10/11 11:03:52", 80.991042, 6.838624, "Help Sent"),
+      (3873439372, 3, "Car", "Major injuries with both parties", "2019/12/12 12:54:23", 80.215837, 7.258914, "Pending"),
+      (5786227481, 1, "Bike", "Nothing major just a dent", "2020/01/02 06:43:23", 80.220332, 6.059235, "Approved"),
+      (1042876039, 2, "Bus", "Windshield broken with some minor injuries.", "2020/01/05 13:23:45", 80.633445, 7.308498, "Completed"),
+      (9643045334, 3, "Car", "Vehicle turned up side down.", "2020/01/06 10:34:23", 80.784509, 6.956704, "Pending");
 
 /*
   Possible Values for Status column in the Report Table:
