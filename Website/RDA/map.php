@@ -5,7 +5,7 @@ require("config.php");
 
 $markers=array();
 
-$query =  $conn->query("SELECT Type,Longitude,Latitude,Description FROM report");
+$query =  $conn->query("SELECT Type,Longitude,Latitude,Description FROM vreport");
 
 while( $row = $query->fetch_assoc() ){
     $type = $row['Type'];

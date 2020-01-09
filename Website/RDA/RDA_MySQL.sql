@@ -56,8 +56,9 @@ ALTER TABLE Report AUTO_INCREMENT = 0000001;
 -- Inserting records into Table 2 login- Report
 INSERT INTO Report(NIC, Severity, Type, Description, Date_Time, Longitude, Latitude, Status)
 VALUES (7835404537, 1, "Car", "A small accident with a small amount of damage", "2019/02/18 07:15:25", 79.980607, 6.834806, "Pending"),
-(5786227481, 3, "Bus", "An accident with many injuries", "2019/012/30 09:58:49", 80.583487, 7.254586, "Approved"),
-(7456780465, 2, "Bike", "A major accident with many injuries", "2019/10/11 11:03:52", 80.991042, 6.838624, "Help Sent");
+(5786227481, 3, "Bus", "An accident with many injuries", "2019/12/30 09:58:49", 80.583487, 7.254586, "Approved"),
+     (3408672316, 3, "SUV", "An accident with vehical damage", "2019/12/30 19:58:49", 80.683487, 7.154586,"Approved"),
+       (7456780465, 2, "Bike", "A major accident with many injuries", "2019/10/11 11:03:52", 80.991042, 6.838624, "Help Sent");
 
 /*
   Possible Values for Status column in the Report Table:
@@ -83,25 +84,25 @@ INSERT INTO ReportMedia(NIC, ReportID, Media) /*this NIC should be a driver */
 VALUES
 (7835404537, 0000001, LOAD_FILE("D:\sadasdasd.JPG"));
 
--- Creating Table 4 - Complaint
-CREATE TABLE Complaint(
+-- Creating Table 4 - Support
+CREATE TABLE Support(
   ID INT(7) NOT NULL AUTO_INCREMENT,
   NIC VARCHAR(12) NOT NULL,
-  Type VARCHAR(10),
-  Description TINYTEXT,
+  Subject VARCHAR(30),
+  Description VARCHAR(255),
   Status VARCHAR(20),
   PRIMARY KEY (ID, NIC),
   FOREIGN KEY (NIC) REFERENCES Driver(NIC)
 )ENGINE=INNODB;
 
--- Altering Table 4 - Complaint, to add starting value for AUTO INCREMENT column
-ALTER TABLE Complaint AUTO_INCREMENT = 6000000;
+-- Altering Table 4 - Support, to add starting value for AUTO INCREMENT column
+ALTER TABLE Support AUTO_INCREMENT = 6000000;
 
--- Inserting records into Table 4 - Complaint
-INSERT INTO Complaint(NIC, Type, Description, Status)
-VALUES (7835404537, "Car","Flat Tire", 'Help Sent'),
-       (5786227481, "Car","Breakdown", 'Pending'),
-       (5786227481, "Bus","Accident", 'Pending');
+-- Inserting records into Table 4 - Support
+INSERT INTO Support(NIC, Subject, Description, Status)
+VALUES (7835404537, "Car Issue","Flat Tire", 'Help Sent'),
+       (5786227481, "Report Not Seen","My report not checked still", 'Pending'),
+       (5786227481, "Bus Insurance","Accident with bike on station no insurance help still", 'Pending');
 
 
 -- Creating Table 5 - EmployeeDetails
@@ -243,17 +244,24 @@ CREATE TABLE vReport
     rNIC        VARCHAR(12),
     ReportID    INT,
     Severity    TINYINT(1),
-    Type        VARCHAR(1),
+    Type        VARCHAR(10),
     Description TINYTEXT,
     Date_Time   DATETIME,
     Longitude   varchar(20),
     Latitude    varchar(20),
     PRIMARY KEY (ID, ReportID),
-    FOREIGN KEY (ReportID) REFERENCES ReportMedia (ReportID),
+    FOREIGN KEY (ReportID) REFERENCES Report (ID),
     FOREIGN KEY (pNIC) REFERENCES Police_Agent (NIC),
     FOREIGN KEY (rNIC) REFERENCES RDA_Agent (NIC)
 ) ENGINE = INNODB;
+-- Altering Table 9 - Report, to add starting value for AUTO INCREMENT column
+ALTER TABLE vReport AUTO_INCREMENT = 0000001;
 
+INSERT INTO vReport(ReportID,pNIC, Severity, Type, Description, Date_Time, Longitude, Latitude)
+VALUES (0000001,4891656189, 1, "Car", "A small accident with a small amount of damage", "2019/02/18 07:15:25", 79.980607, 6.834806),
+       (0000002,2016341862, 3, "Bus", "An accident with many injuries", "2019/12/30 09:58:49", 80.583487, 7.254586),
+       (0000003,2016341862, 3, "SUV", "An accident with vehical damage", "2019/12/30 19:58:49", 80.683487, 7.154586),
+       (0000004,4891656189, 2, "Bike", "A major accident with many injuries", "2019/10/11 11:03:52", 80.991042, 6.838624);
 
 -- Creating Table 10 - WebMaster
 CREATE TABLE WebMaster(
@@ -299,3 +307,15 @@ VALUES
 (1234568994,"Sydney","admin@rda.lk", "WebMaster", "$2y$04$.yxXBlATPRJotOiE8m41KuRwLKTzVK8aPIWWtmvhSW0LQUsSWSs6W"); /*root*/
 
 
+-- Creating Table 12 - Insurance Managed Reports
+/*Completed records go here*/
+CREATE TABLE Managed_Reports
+(
+    ID         INT(7) NOT NULL AUTO_INCREMENT,
+    NIC        VARCHAR(12),
+    ReportID   INT,
+    Date_Time  DATETIME,
+    PRIMARY KEY (ID, ReportID),
+    FOREIGN KEY (ReportID) REFERENCES ReportMedia (ReportID),
+    FOREIGN KEY (NIC) REFERENCES Insurance_Agent (NIC)
+) ENGINE = INNODB;
