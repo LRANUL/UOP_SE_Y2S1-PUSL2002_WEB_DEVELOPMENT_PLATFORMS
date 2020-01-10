@@ -102,8 +102,8 @@ if(isset($_POST['submit'])){
                     <option value="Web_Master">Administration</option></optgroup>
             </select>
             <div
-                class="form-group"><input class="form-control" type="email" name="email" placeholder="Email"></div>
-    <div class="form-group"><input class="form-control" type="password" name="password" placeholder="Password"></div>
+                class="form-group"><input class="form-control" type="email" name="email" placeholder="Email" required></div>
+    <div class="form-group"><input class="form-control" type="password" name="password" placeholder="Password" required></div>
     <div class="form-group"><button class="btn btn-outline-primary btn-block" data-bs-hover-animate="pulse" type="submit" name="submit">Log In</button></div><a class="forgot" href="support">Forgot your email or password?</a></form>
     </div>
     <div class="card"></div>

@@ -80,19 +80,19 @@ class="collapse navbar-collapse" id="navcol-1">
 <form action="<?php echo $_SERVER['PHP_SELF']?>" method="post" style="height: 620px;" >
 <h2 class="text-center"><strong>Create</strong> an account.</h2>
 <div class="form-group">
-<input class="form-control" type="text" name="firstname" placeholder="First Name" maxlength="100">
-<input class="form-control" type="text" name="lastname" placeholder="Last Name" style="margin-bottom: 15px;" maxlength="100">
-<input class="form-control" type="number" name="nic" placeholder="NIC / Passport No" style="margin-bottom: 15px;" maxlength="14">
-<input class="form-control" type="date" name="birth" placeholder="Date of Birth">
-    <input class="form-control" type="tel" name="contact" placeholder="Phone" maxlength="10">
-    <input class="form-control" type="tel" name="insuranceno" placeholder="Insurance No" maxlength="10">
-<input class="form-control" type="tel" name="licenseno" placeholder="License No" maxlength="10">
-<input class="form-control" type="text" name="insurance" placeholder="Insurance Name" maxlength="100">
-<input class="form-control" type="email" name="email" placeholder="Email" style="margin-bottom: 15px;" maxlength="50">
-<input class="form-control" type="password" name="password" placeholder="Password" style="margin-bottom: 15px;" maxlength="30">
-<input class="form-control" type="password" name="confirm_password" placeholder="Confirm Password" maxlength="30"></div>
+<input class="form-control" type="text" name="firstname" placeholder="First Name" maxlength="100" required>
+<input class="form-control" type="text" name="lastname" placeholder="Last Name" style="margin-bottom: 15px;" maxlength="100" required>
+<input class="form-control" type="number" name="nic" placeholder="NIC / Passport No" style="margin-bottom: 15px;" maxlength="14" required>
+<input class="form-control" type="date" name="birth" placeholder="Date of Birth" required>
+    <input class="form-control" type="tel" name="contact" placeholder="Phone" maxlength="10" required>
+    <input class="form-control" type="tel" name="insuranceno" placeholder="Insurance No" maxlength="10" required>
+<input class="form-control" type="tel" name="licenseno" placeholder="License No" maxlength="10" required>
+<input class="form-control" type="text" name="insurance" placeholder="Insurance Name" maxlength="100" required>
+<input class="form-control" type="email" name="email" placeholder="Email" style="margin-bottom: 15px;" maxlength="50" required>
+<input class="form-control" type="password" name="password" placeholder="Password" style="margin-bottom: 15px;" min="10" maxlength="30" required>
+<input class="form-control" type="password" name="confirm_password" placeholder="Confirm Password" min="10" maxlength="30" required></div>
 <div class="form-check"><label class="form-check-label">
-<input class="form-check-input" type="checkbox">I agree to the license terms.</label></div>
+<input class="form-check-input" type="checkbox" required>I agree to the license terms.</label></div>
 <div class="form-group">
     <button class="btn btn-info btn-block" data-bs-hover-animate="pulse" type="submit" name="submit" style="margin-top: 15px;">Sign Up</button>
 </div><a class="already" href="login.php">You already have an account? Login here.</a></form>

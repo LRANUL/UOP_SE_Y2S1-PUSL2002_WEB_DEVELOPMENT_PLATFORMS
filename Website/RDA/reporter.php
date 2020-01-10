@@ -328,6 +328,8 @@ if (isset($_POST['changereport'])) {
                     <form class="form-inline mr-auto" target="_self">
                         <div class="form-group"><label for="search-field"></label></div>
                     </form>
+                    </form><span class="text-primary navbar-text"> <button class="btn btn-light text-white action-button"
+                                                                    type="button"><a href="Private messaging system/index.php">Message</a></button></span>
                     <span class="text-primary navbar-text"> <button class="btn btn-light text-white action-button"
                                                                     type="button"><a
                                     href="logout.php">Log Out</a></button></span></div>

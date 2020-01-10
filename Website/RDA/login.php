@@ -72,8 +72,8 @@ echo '</script>';
 
     <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF'])?>" method="post">
       <h3 class="text-center">Login to account</h3><img style="background-image: url(&quot;assets/img/Accident%20Recover.jpg&quot;);background-size: cover;background-position: top;width: 250px;height: 200px;padding: 20px;">
-      <input class="form-control" type="email" name="email" placeholder="Email" maxlength="50">
-      <input class="form-control" type="password" name="password" placeholder="Password" maxlength="30">
+      <input class="form-control" type="email" name="email" placeholder="Email" maxlength="50" required>
+      <input class="form-control" type="password" name="password" placeholder="Password" maxlength="30" required>
      <button class="btn btn-success btn-block" data-bs-hover-animate="pulse" type="submit" name="submit">Log In</button>
         <a class="forgot" href="support">Forgot your email or password?</a><a class="forgot" href="signup">Don't have an account? Signup here.</a></form>
     </div>
