@@ -45,6 +45,7 @@ CREATE TABLE Report(
   Date_Time DATETIME,
   Longitude varchar(20),
   Latitude varchar(20),
+  Media       longblob,
   Status VARCHAR(20),
   PRIMARY KEY (ID, NIC),
   FOREIGN KEY (NIC) REFERENCES Driver(NIC)
@@ -71,28 +72,10 @@ VALUES
   Possible Values for Status column in the Report Table:
   Pending, Approved, Disapproved, Help Sent, Completed
 
-  Onlu Possible Values for Type column in the Report Table:
+  Only Possible Values for Type column in the Report Table:
   Bike, Car, Bus, Truck, Van, SUV
 */
 
-
--- Creating Table 3 - ReportMedia
--- Column with BLOB data type, 'Media', can't be added to a composite primary key without a key length.
--- So, another column was added, 'MediaID', to include in the composite primary key.
-CREATE TABLE ReportMedia(
-  ID INT(7) NOT NULL AUTO_INCREMENT,
-  NIC VARCHAR(12) NOT NULL,
-  ReportID INT,
-  Media BLOB,
-  PRIMARY KEY (ID, ReportID),
-  FOREIGN KEY (ReportID) REFERENCES Report(ID),
-  FOREIGN KEY (NIC) REFERENCES Report(NIC)
-)ENGINE=INNODB;
-
--- Inserting records into Table 3 - ReportMedia
-INSERT INTO ReportMedia(NIC, ReportID, Media) /*this NIC should be a driver */
-VALUES
-(7835404537, 0000001, LOAD_FILE("D:\sadasdasd.JPG"));
 
 -- Creating Table 4 - Support
 CREATE TABLE Support(
@@ -259,19 +242,23 @@ CREATE TABLE vReport
     Date_Time   DATETIME,
     Longitude   varchar(20),
     Latitude    varchar(20),
+    Status      VARCHAR(20),
     PRIMARY KEY (ID, ReportID),
     FOREIGN KEY (ReportID) REFERENCES Report (ID),
     FOREIGN KEY (pNIC) REFERENCES Police_Agent (NIC),
     FOREIGN KEY (rNIC) REFERENCES RDA_Agent (NIC)
 ) ENGINE = INNODB;
 -- Altering Table 9 - Report, to add starting value for AUTO INCREMENT column
-ALTER TABLE vReport AUTO_INCREMENT = 0000001;
+ALTER TABLE vReport
+    AUTO_INCREMENT = 0000001;
 
-INSERT INTO vReport(ReportID,pNIC, Severity, Type, Description, Date_Time, Longitude, Latitude)
-VALUES (0000001,4891656189, 1, "Car", "A small accident with a small amount of damage", "2019/02/18 07:15:25", 79.980607, 6.834806),
-       (0000002,2016341862, 3, "Bus", "An accident with many injuries", "2019/12/30 09:58:49", 80.583487, 7.254586),
-       (0000003,2016341862, 3, "SUV", "An accident with vehical damage", "2019/12/30 19:58:49", 80.683487, 7.154586),
-       (0000004,4891656189, 2, "Bike", "A major accident with many injuries", "2019/10/11 11:03:52", 80.991042, 6.838624);
+INSERT INTO vReport(ReportID, pNIC, Severity, Type, Description, Date_Time, Longitude, Latitude)
+VALUES (0000001, 4891656189, 1, "Car", "A small accident with a small amount of damage", "2019/02/18 07:15:25",
+        79.980607, 6.834806),
+       (0000002, 2016341862, 3, "Bus", "An accident with many injuries", "2019/12/30 09:58:49", 80.583487, 7.254586),
+       (0000003, 2016341862, 3, "SUV", "An accident with vehical damage", "2019/12/30 19:58:49", 80.683487, 7.154586),
+       (0000004, 4891656189, 2, "Bike", "A major accident with many injuries", "2019/10/11 11:03:52", 80.991042,
+        6.838624);
 
 -- Creating Table 10 - WebMaster
 CREATE TABLE WebMaster(
@@ -326,6 +313,22 @@ CREATE TABLE Managed_Reports
     ReportID   INT,
     Date_Time  DATETIME,
     PRIMARY KEY (ID, ReportID),
-    FOREIGN KEY (ReportID) REFERENCES ReportMedia (ReportID),
+    FOREIGN KEY (ReportID) REFERENCES Report (ID),
     FOREIGN KEY (NIC) REFERENCES Insurance_Agent (NIC)
 ) ENGINE = INNODB;
+
+
+-- Creating Table 13 - Feedback
+CREATE TABLE Feedback
+(
+    ID          INT(7)      NOT NULL AUTO_INCREMENT,
+    Name        VARCHAR(50),
+    Email         VARCHAR(50) NOT NULL,
+    Subject     VARCHAR(30),
+    Description VARCHAR(255),
+    PRIMARY KEY (ID)
+) ENGINE = INNODB;
+
+-- Altering Table 13 - Support, to add starting value for AUTO INCREMENT column
+ALTER TABLE Feedback
+    AUTO_INCREMENT = 6000000;
