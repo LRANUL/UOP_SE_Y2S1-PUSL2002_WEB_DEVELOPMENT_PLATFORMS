@@ -10,13 +10,13 @@
 
   // Starts the session period
   session_start();
-/*
+
   if (!isset($_SESSION["email"])) {
       header("location: login.php");
   }
   else (isset($_POST["submit"])) {
       $email = $_POST["email"];
-  }*/
+  }
 
   $firstName = "";
   $lastName = "";
@@ -68,40 +68,120 @@
 
       // JavaScript functions used to update the status of the report
         function updateStatusApprove(reportID){
-          alert("eefffe");
-          <?php echo "efep";
-          $updateStatusSQL = "UPDATE report SET Status = 'Approved' WHERE ID = "?>+ reportID +<?php";";
-          $updateStatusResult = mysqli_query($conn, $updateStatusSQL);
-          if($updateStatusResult == true){
-            ?>alert("Record  Updated");<?php;
+          <?php
+          $currentStatus = "";
+
+          $checkCurrentStatusSQL = "SELECT Status FROM report WHERE ID = '?>+ reportID +<?php';";
+
+          $checkCurrentStatusResult = mysqli_query($conn, $checkCurrentStatusSQL);
+
+          while($checkCurrentStatusRow = mysqli_fetch_array($checkCurrentStatusResult)){
+            $currentStatus = $checkCurrentStatusRow["Status"];
+          }
+
+          if($currentStatus == "Approved")
+          {
+            ?>alert("Report Status already assigned as Approved");<?php
+          }
+          else{
+            $updateStatusSQL = "UPDATE report SET Status = 'Approved' WHERE ID = '?>+ reportID +<?php';";
+
+            $updateStatusResult = mysqli_query($conn, $updateStatusSQL);
+
+            if($updateStatusResult == true){
+              ?>alert("Record Status Successfully Updated to Approved ");<?php
+            }
+
           }
           ?>
-          alert(reportID);
         }
+
         function updateStatusSendHelp(){
           <?php
-          $updateStatusSQL = "UPDATE report SET Status = 'Help Sent' WHERE ID = '$reportReportID';";
-          $updateStatusResult = mysqli_query($conn, $updateStatusSQL);
+          $currentStatus = "";
+
+          $checkCurrentStatusSQL = "SELECT Status FROM report WHERE ID = '?>+ reportID +<?php';";
+
+          $checkCurrentStatusResult = mysqli_query($conn, $checkCurrentStatusSQL);
+
+          while($checkCurrentStatusRow = mysqli_fetch_array($checkCurrentStatusResult)){
+            $currentStatus = $checkCurrentStatusRow["Status"];
+          }
+
+          if($currentStatus == "Help Sent")
+          {
+            ?>alert("Report Status already assigned as Help Sent");<?php
+          }
+          else{
+            $updateStatusSQL = "UPDATE report SET Status = 'Help Sent' WHERE ID = '?>+ reportID +<?php';";
+
+            $updateStatusResult = mysqli_query($conn, $updateStatusSQL);
+
+            if($updateStatusResult == true){
+              ?>alert("Record Status Successfully Updated to Help Sent");<?php
+            }
+          }
           ?>
-          alert("Record Successfully Updated");
         }
+
         function updateStatueComplete(){
           <?php
-          $updateStatusSQL = "UPDATE report SET Status = 'Completed' WHERE ID = '$reportReportID';";
-          $updateStatusResult = mysqli_query($conn, $updateStatusSQL);
+          $currentStatus = "";
+
+          $checkCurrentStatusSQL = "SELECT Status FROM report WHERE ID = '?>+ reportID +<?php';";
+
+          $checkCurrentStatusResult = mysqli_query($conn, $checkCurrentStatusSQL);
+
+          while($checkCurrentStatusRow = mysqli_fetch_array($checkCurrentStatusResult)){
+            $currentStatus = $checkCurrentStatusRow["Status"];
+          }
+
+          if($currentStatus == "Completed")
+          {
+            ?>alert("Report Status already assigned as Completed");<?php
+          }
+          else{
+            $updateStatusSQL = "UPDATE report SET Status = 'Completed' WHERE ID = '?>+ reportID +<?php';";
+
+            $updateStatusResult = mysqli_query($conn, $updateStatusSQL);
+
+            if($updateStatusResult == true){
+              ?>alert("Record Status Successfully Updated to Completed");<?php
+            }
+          }
           ?>
-          alert("Record Successfully Updated");
         }
+
         function updateStatusDisapprove(){
           <?php
-          $updateStatusSQL = "UPDATE report SET Status = 'Disapproved' WHERE ID = '$reportReportID';";
-          $updateStatusResult = mysqli_query($conn, $updateStatusSQL);
+          $currentStatus = "";
+
+          $checkCurrentStatusSQL = "SELECT Status FROM report WHERE ID = '?>+ reportID +<?php';";
+
+          $checkCurrentStatusResult = mysqli_query($conn, $checkCurrentStatusSQL);
+
+          while($checkCurrentStatusRow = mysqli_fetch_array($checkCurrentStatusResult)){
+            $currentStatus = $checkCurrentStatusRow["Status"];
+          }
+
+          if($currentStatus == "Disapproved")
+          {
+            ?>alert("Report Status already assigned as Disapproved");<?php
+          }
+          else{
+            $updateStatusSQL = "UPDATE report SET Status = 'Disapproved' WHERE ID = '?>+ reportID +<?php';";
+
+            $updateStatusResult = mysqli_query($conn, $updateStatusSQL);
+
+            if($updateStatusResult == true){
+              ?>alert("Record Status Successfully Updated to Disapproved");<?php
+            }
+          }
           ?>
-          alert("Record Successfully Updated");
         }
-      </script>
 
     </script>
+
 
 
 </head>
@@ -770,11 +850,11 @@
                           </button>
                           <button type="button" onclick="updateStatusApprove(<?php echo $reportReportID; ?>);" class="btn btn-outline-primary" style="width: 120px;"> <b>Approve</b>
                           </button>
-                          <button type="button" onclick="updateStatusSendHelp()" class="btn btn-outline-info" style="width: 120px;"> <b>Send Help</b>
+                          <button type="button" onclick="updateStatusSendHelp(<?php echo $reportReportID; ?>);" class="btn btn-outline-info" style="width: 120px;"> <b>Send Help</b>
                           </button>
-                          <button type="button" onclick="updateStatueComplete()" class="btn btn-outline-success" style="width: 120px;"> <b>Completed</b>
+                          <button type="button" onclick="updateStatueComplete(<?php echo $reportReportID; ?>);" class="btn btn-outline-success" style="width: 120px;"> <b>Completed</b>
                           </button>
-                          <button type="button" onclick="updateStatusDisapprove()" class="btn btn-outline-secondary" style="width: 120px;"> <b>Disapprove</b>
+                          <button type="button" onclick="updateStatusDisapprove(<?php echo $reportReportID; ?>);" class="btn btn-outline-secondary" style="width: 120px;"> <b>Disapprove</b>
                           </button>
                         </div>
                       </div>
@@ -1108,10 +1188,10 @@
 
 
 
-    <!-- Google Maps Key -->
+    <!-- Google Map Key -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDEoqYdMxy9glgnny_X1WMcJDFYf3lAHtw&callback=myMap"></script>
-    <!-- Retrieving the visualization libraries -->
 
+    <!-- Retrieving the visualization libraries -->
   <!--  <script type="text/javascript"
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDEoqYdMxy9glgnny_X1WMcJDFYf3lAHtw&libraries=visualization">
     </script> -->
