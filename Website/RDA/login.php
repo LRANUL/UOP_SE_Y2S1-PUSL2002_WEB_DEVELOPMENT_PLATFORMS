@@ -35,6 +35,7 @@ if(isset($_POST['submit'])){
 		$row = mysqli_fetch_assoc($rs);
 		if(password_verify($password,$row['Password'])){
             session_start();
+            $_SESSION["username"] = $email;
             $_SESSION["email"] = $email;
             $_SESSION['start'] = time();
             $_SESSION['expire'] = $_SESSION['start'] + (720 * 60);  // 12 hour session window
