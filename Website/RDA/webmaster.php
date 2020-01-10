@@ -66,6 +66,67 @@ $dataPoints = array(
     array("label" => "User", "y" => 24.8)
 );
 
+$markers=array();
+
+$query =  $conn->query("SELECT Type,Longitude,Latitude,Description FROM report");
+
+while( $row = $query->fetch_assoc() ){
+    $type = $row['Type'];
+    $desc = $row['Description'];
+    $longitude = $row['Longitude'];
+    $latitude = $row['Latitude'];
+
+    $markers[]=array( 'type'=>$type, 'lat'=>$latitude, 'lng'=>$longitude,'desc'=>$desc);
+}
+
+?>
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDEoqYdMxy9glgnny_X1WMcJDFYf3lAHtw"></script>
+<script type="text/javascript">
+    var map;
+    var Markers = {};
+    var infowindow;
+    var locations = [
+        <?php for($i=0;$i<sizeof($markers);$i++){ $j=$i+1;?>
+        [
+            'RDA AA',
+            "<p><?php echo $markers[$i]['type'];?> Accident </p><p><?php echo $markers[$i]['desc'];?>",
+            <?php echo $markers[$i]['lat'];?>,
+            <?php echo $markers[$i]['lng'];?>,
+        ]<?php if($j!=sizeof($markers))echo ","; }?>
+    ];
+    var origin = new google.maps.LatLng(locations[0][2], locations[0][3]);
+    function initialize() {
+        var mapOptions = {
+            zoom: 9,
+            center: origin
+        };
+        map = new google.maps.Map(document.getElementById('dvMap'), mapOptions);
+        infowindow = new google.maps.InfoWindow();
+        for(i=0; i<locations.length; i++) {
+            var position = new google.maps.LatLng(locations[i][2], locations[i][3]);
+            var marker = new google.maps.Marker({
+                position: position,
+                map: map,
+            });
+            google.maps.event.addListener(marker, 'click', (function(marker, i) {
+                return function() {
+                    infowindow.setContent(locations[i][1]);
+                    infowindow.setOptions({maxWidth: 200});
+                    infowindow.open(map, marker);
+                }
+            }) (marker, i));
+            Markers[locations[i][4]] = marker;
+        }
+        locate(0);
+    }
+    function locate(marker_id) {
+        var myMarker = Markers[marker_id];
+        var markerPosition = myMarker.getPosition();
+        map.setCenter(markerPosition);
+        google.maps.event.trigger(myMarker, 'click');
+    }
+    google.maps.event.addDomListener(window, 'load', initialize);
+</script>
 
 ?>
 
@@ -115,7 +176,12 @@ $dataPoints = array(
             chart.render();
         }
     </script>
-
+    <style>
+        #dvMap{
+            height: 500px;
+            width: 100%;
+        }
+    </style>
 </head>
 
 <body>
@@ -317,9 +383,7 @@ $dataPoints = array(
     <div class="container">
         <div id="collapse-1" class="collapse">
             <h2 class="text-center">Locations</h2>
-            <iframe allowfullscreen="" frameborder="0"
-                    src="https://www.google.com/maps/embed/v1/place?key=AIzaSyDEoqYdMxy9glgnny_X1WMcJDFYf3lAHtw&amp;q=7.8731%2C+80.7718&amp;zoom=7"
-                    width="100%" height="450"></iframe>
+            <div id="dvMap"></div>
         </div>
     </div>
 </div>

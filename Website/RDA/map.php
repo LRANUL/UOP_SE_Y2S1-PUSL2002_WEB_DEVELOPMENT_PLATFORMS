@@ -26,8 +26,8 @@ while( $row = $query->fetch_assoc() ){
         <?php for($i=0;$i<sizeof($markers);$i++){ $j=$i+1;?>
         [
             'RDA AA',
-            "'<h6><?php echo $markers[$i]['type'];?><p>Accident</p>",
-        <?php echo $markers[$i]['lat'];?>,
+            "<p><?php echo $markers[$i]['type'];?> Accident </p><p><?php echo $markers[$i]['desc'];?>",
+            <?php echo $markers[$i]['lat'];?>,
             <?php echo $markers[$i]['lng'];?>,
         ]<?php if($j!=sizeof($markers))echo ","; }?>
     ];
