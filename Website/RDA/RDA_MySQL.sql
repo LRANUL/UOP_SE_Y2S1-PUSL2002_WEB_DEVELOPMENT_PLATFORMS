@@ -63,11 +63,16 @@ VALUES
       (3873439372, 3, "Car", "Major injuries with both parties", "2019/12/12 12:54:23", 80.215837, 7.258914, "Pending"),
       (5786227481, 1, "Bike", "Nothing major just a dent", "2020/01/02 06:43:23", 80.220332, 6.059235, "Approved"),
       (1042876039, 2, "Bus", "Windshield broken with some minor injuries.", "2020/01/05 13:23:45", 80.633445, 7.308498, "Completed"),
-      (9643045334, 3, "Car", "Vehicle turned up side down.", "2020/01/06 10:34:23", 80.784509, 6.956704, "Pending");
+      (3873439372, 2, "Truck", "Side door damaged", "2020/01/05 14:43:23", 80.041287, 6.809467, "Completed"),
+      (9643045334, 1, "Car", "Small hit", "2020/03/06 09:23:21", 80.784509, 6.956704, "Pending"),
+      (5786227481, 2, "Van", "Side mirror broken adn pasenger has minor injury", "2020/03/06 19:23:36", 79.851888, 6.911124, "Pending");
 
 /*
   Possible Values for Status column in the Report Table:
   Pending, Approved, Disapproved, Help Sent, Completed
+
+  Onlu Possible Values for Type column in the Report Table:
+  Bike, Car, Bus, Truck, Van, SUV
 */
 
 
