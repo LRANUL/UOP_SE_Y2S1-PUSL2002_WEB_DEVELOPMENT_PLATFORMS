@@ -1,7 +1,7 @@
 <div id="right-col-container">
      <div id="message-container">
      <?php 
-    
+        $no_message = false;
     if(isset($_GET['user'])){
         $_GET['user'] = $_GET['user'];
 
@@ -26,6 +26,7 @@
 
             }else{
                 echo 'no messages from u';
+                $no_message = true;
             }
             
         }else {
@@ -33,7 +34,7 @@
         }
     }
 
-
+    if($no_message == false){
      $q='SELECT * FROM `messages` WHERE `sender_name` = "'.$_SESSION['username'].'" AND `reciver_name` = "'.$_GET["user"].'"
      OR `sender_name` = "'.$_GET['user'].'"
      AND `reciver_name` = "'.$_SESSION['username'].'" ';
@@ -65,39 +66,39 @@
         }else{
             echo $q;
         }
-        
+    }// end of if no msg
      ?>
                 
 
       </div>
-      <form action="" method="post">
+      <form action="" method="post" id="message-form">
       <textarea class="textarea" name="" id="message_text" placeholder="Write your message"></textarea>
       </form>
-                    <textarea class="textarea" name="" id="" placeholder="Write your message"></textarea>
+                   <!-- <textarea class="textarea" name="" id="" placeholder="Write your message"></textarea> -->
 </div>
 <script src="sub_file/jquery-3.4.1.min.js"></script>
 <script>
 $("document").ready(function(event){
 
     $("#right-col-container").on('submit','#message-form',function(){
-        var message_text = $("#message_text").val();
+        var message_text = $("#message_text").val(); //data from the text area
         //send the data to sending_process.php file
         $.post("sub_file/sending_process.php?user=<?php echo $_GET['user'];?>",{
            text: message_text,
         },
         function(data,status){
-            alert (data);
+            //alert (data); to test the send to index.php
             $("#message_text").val("");
             document.getElementById("message-container").innerHTML += data;
         }
         );
     });
     $("#right-col-container").keypress(function(e){
-        if(e.keycode==13 && !e.shiftkey){
+        if(e.keyCode== 13 && !e.shiftKey){ //if enter is clicked without SHIFT
             $("#message-form").submit();
 
         }
-    });
+    });  
 
 })
 </script>

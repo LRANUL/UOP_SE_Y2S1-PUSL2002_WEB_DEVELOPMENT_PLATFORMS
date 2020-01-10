@@ -1,11 +1,11 @@
 <?php
- seasion_start();
+ session_start();
  require_once("../connection.php");
 if(isset($_SESSION['username'])  and isset($_GET['user'])){
     if(isset($_POST['text'])){
-        if($_POST['text'] !=''){
+        if($_POST['text'] !=''){ //check for empty data
             $sender_name = $_SESSION['username'];
-            $reciever_name = $GET['user'];
+            $reciever_name = $_GET['user'];
             $message = $_POST['text'];
             $date = date("Y-m-d h:i:sa");
 
