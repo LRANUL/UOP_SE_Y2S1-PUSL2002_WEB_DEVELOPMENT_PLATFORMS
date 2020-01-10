@@ -23,7 +23,7 @@ SET time_zone = "+00:00";
 --
 
 -- --------------------------------------------------------
-
+Create database Private_Message; 
 --
 -- Table structure for table `messages`
 --

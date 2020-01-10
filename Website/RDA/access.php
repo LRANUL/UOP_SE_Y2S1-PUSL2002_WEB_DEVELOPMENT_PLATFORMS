@@ -25,6 +25,7 @@ if(isset($_POST['submit'])){
             $_SESSION['start'] = time();
             $_SESSION['expire'] = $_SESSION['start'] + (720 * 60);  // 12 hour session window
             $_SESSION["email"] = $email;
+            $_SESSION["username"] = $email;
             header("Location: insurance");
         }
         else if($type == "RDA_Agent"){
