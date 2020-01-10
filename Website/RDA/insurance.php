@@ -2,11 +2,10 @@
 
 include_Once('config.php');
 session_start();
-$now = time();
-if (!isset($_SESSION["email"]) && $now > $_SESSION['expire']) {
-    echo '<script>alert("Your session has expired, login again.")</script>';
-    header("location: access");
+if (!isset($_SESSION["email"])) {
+    header("location: login");
 }
+
  $users="SELECT * FROM driver";
  $Uresult= mysqli_query($conn,$users);
 
@@ -170,6 +169,7 @@ while( $row = $query->fetch_assoc() ){
                         <form class="form-inline mr-auto" target="_self">
                             <div class="form-group"><label for="search-field"></label></div>
                         </form>
+                         <span class="text-primary navbar-text"> <button class="btn btn-light text-white action-button" type="button"><a href="Private messaging system/index.php">Message</a></button></span>
                         <span class="text-primary navbar-text"> <button class="btn btn-light text-white action-button" type="button"><a href="logout.php">Log Out</a></button></span></div>
                 </div>
             </nav>
@@ -421,7 +421,7 @@ while( $row = $query->fetch_assoc() ){
     </div>
     </div>
   </div>
-
+ 
    <div class="highlight-blue" style="background-color: rgb(190,255,193);"></div>
     <div class="footer-dark" style="background-color: rgb(0,22,38);">
         <footer>
