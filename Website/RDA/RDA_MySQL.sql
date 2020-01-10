@@ -183,17 +183,17 @@ CREATE TABLE Police_Agent(
 )ENGINE=INNODB;
 
 -- Inserting records into Table 6 - Police_Agent
-INSERT INTO Police_Agent(NIC, Name, Email, ContactNo, EID)
-VALUES (2016341862, "Sahan", "general@police.lk", 0763619401, 9000001),
-(4891656189, "Oshan", "woshan@gmail.com", 0721416462, 9000002),
-(2165189489, "Ashane", "ashane41@gmail.com", 0761348431, 9000003),
-(9415618913, "Athula", "Athula7@yahoo.com", 0713184169, 9000004),
-(9526223252, "Chamara", "chamaraw@yahoo.com", 0713189494, 9000005),
-(8423210065, "Iranga", "Iranag13@gmail.com", 0721841984, 9000006),
-(8451122198, "Chaminda", "Chaminda3@yahoo.com", 0761816218, 9000007),
-(1349841297, "Lasitha", "Lasitha65@yahoo.com", 0711894923, 9000008),
-(7156213980, "Sandun", "Sandun62@yahoo.com", 0724984949, 9000009),
-(8451016196, "Sanjeeva", "Sanjeeva8@gmail.com", 0716498348, 9000010);
+INSERT INTO Police_Agent(NIC, FirstName, MiddleName, LastName, Email, ContactNo, EID)
+VALUES (2016341862, "Sahan", "Vlahos", "Vincenty", "general@police.lk", 0763619401, 9000001),
+(4891656189, "Oshan", "Burehill", "Gerhardt", "woshan@gmail.com", 0721416462, 9000002),
+(2165189489, "Ashane", "Killik", "Eustace", "ashane41@gmail.com", 0761348431, 9000003),
+(9415618913, "Athula", "Roscamps", "Shepard", "Athula7@yahoo.com", 0713184169, 9000004),
+(9526223252, "Chamara", "Grimwade", "Wallas", "chamaraw@yahoo.com", 0713189494, 9000005),
+(8423210065, "Iranga", "Bramo", "Brodie", "Iranag13@gmail.com", 0721841984, 9000006),
+(8451122198, "Chaminda", "Eton", "Rorke", "Chaminda3@yahoo.com", 0761816218, 9000007),
+(1349841297, "Lasitha", "Gallier", "Woody", "Lasitha65@yahoo.com", 0711894923, 9000008),
+(7156213980, "Sandun", "Hoggin", "Jerry", "Sandun62@yahoo.com", 0724984949, 9000009),
+(8451016196, "Sanjeeva", "Scathard", "Travus", "Sanjeeva8@gmail.com", 0716498348, 9000010);
 
 
 -- Creating Table 7 - Insurance_Agent
