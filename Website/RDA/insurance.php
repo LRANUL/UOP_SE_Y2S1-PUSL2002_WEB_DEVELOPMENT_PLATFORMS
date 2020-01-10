@@ -8,10 +8,10 @@ include_Once('config.php');
  $map="SELECT Longitude, Latitude from report";
  $MAresult=mysqli_query($conn,$map);
 
- $report="SELECT * FROM report";
+ $report="SELECT * FROM vreport where Status IS NULL";
  $Rresult=mysqli_query($conn, $report);
 
- $Managed="SELECT * FROM Managed_Reports";
+ $Managed="SELECT * FROM vreport where Status = 'Accept'";
  $Mresult=mysqli_query($conn,$Managed);
 
 
@@ -34,8 +34,18 @@ while( $row = $query->fetch_assoc() ){
     $markers[]=array( 'type'=>$type, 'lat'=>$latitude, 'lng'=>$longitude,'desc'=>$desc);
 }
 
+if (isset($_POST['Accept'])) {
+    $id = $_POST['id'];
+    $insert = "Update vreport set Status = 'Accept' Where ID=$id";
+    $result = mysqli_query($conn, $insert);
+}
 
-?>
+if (isset($_POST['Decline'])) {
+    $id = $_POST['id'];
+    $delete = "Update vreport set Status = 'Decline' Where ID=$id";
+    $result = mysqli_query($conn, $delete);
+} ?>
+
 
 <!DOCTYPE html>
 <html>
@@ -79,7 +89,7 @@ while( $row = $query->fetch_assoc() ){
         ]);
 
         var options = {
-          title: '% Of All The Types Vehicles In An Accident ',
+          title: 'Percentage Of All The Types Vehicles In An Accident ',
           is3D:true
         };
 
@@ -232,7 +242,6 @@ while( $row = $query->fetch_assoc() ){
                                   <thead>
                                      <tr>
                                       <th scope="col">ID</th>
-                                       <th scope="col">NID</th>
                                        <th scope="col">Severity</th>
                                        <th scope="col">Type</th>
                                        <th scope="col">Description</th>
@@ -245,42 +254,18 @@ while( $row = $query->fetch_assoc() ){
                                 <tr>
                                     <?php while ($record = mysqli_fetch_assoc($Rresult)) {?>
                                       <td><?php echo $record['ID']; ?></td>
-                                      <td><?php echo $record['NIC']; ?></td>
                                       <td><?php echo $record['Severity']; ?></td>
                                       <td><?php echo $record['Type']; ?></td>
                                       <td><?php echo $record['Description']; ?></td>
                                       <td><?php echo $record['Date_Time']; ?></td>
                                       <td><?php echo $record['Longitude']; ?></td>
                                       <td><?php echo $record['Latitude']; ?></td>
-                        
                                       <td>
-                                        <form action="" method="POST">
-                                        <input type="submit" value="Accept" name="Accept" />
-                                        
-                                          <?php
-                                           if(isset($_POST['Acceptt'])){
-                                          $id=$record['ID'];
-                                          $nic=$record['NIC'];
-                                          $Severity=$record['Severity'];
-                                          $type=$record['Type'];
-                                          $Longitude=$record['Longitude'];
-                                          $Latitude=$record['Latitude'];
-                                          $inser="INSERT INTO Managed_Reports (NIC, Severity, Type, Longitude, Latitude)  VALUES('$nic', '$Severity', '$type', '$Longitude', '$Latitude')";
-                                          $res=mysql_query($conn,$inser);
-                                          }?>
+                                        <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="POST">
+                                            <input class="form-control" type="tel" name="id" placeholder="Confirm ID" maxlength="10">
+                                            <input type="submit" value="Accept" name="Accept" />
+                                            <input type="submit" value="Decline" name="Decline" />
                                       </form>
-                                      </td>
-                                      <td>
-                                        <form action="" method="POST">
-                                        <input type="submit" value="Decline" name="Decline" />
-                                       
-                                            <?php
-                                            $ni=$record['NIC'];
-                                            if(isset($_POST['Decline'])){
-                                            $delet='DELETE  FROM report Where ID="'.$record['NIC']. '" ';
-                                          $re=mysqli_query($conn,$delet);
-                                        }?>
-                                         </form>
                                       </td>
                                   </tr>
                                    <?php } ?>
@@ -314,7 +299,6 @@ while( $row = $query->fetch_assoc() ){
                                   <thead>
                                      <tr>
                                       <th scope="col">ID</th>
-                                       <th scope="col">NID</th>
                                        <th scope="col">Severity</th>
                                        <th scope="col">Type</th>
                                        <th scope="col">Description</th>
@@ -327,14 +311,13 @@ while( $row = $query->fetch_assoc() ){
                                 <tr>
                                     <?php while ($record = mysqli_fetch_assoc($Mresult)) {?>
                                       <td><?php echo $record['ID']; ?></td>
-                                      <td><?php echo $record['NIC']; ?></td>
                                       <td><?php echo $record['Severity']; ?></td>
                                       <td><?php echo $record['Type']; ?></td>
                                       <td><?php echo $record['Description']; ?></td>
                                       <td><?php echo $record['Date_Time']; ?></td>
                                       <td><?php echo $record['Longitude']; ?></td>
                                       <td><?php echo $record['Latitude']; ?></td>
-                                  </tr>
+                                </tr>
                                    <?php } ?>
                                    </tbody>
                                 </table>
