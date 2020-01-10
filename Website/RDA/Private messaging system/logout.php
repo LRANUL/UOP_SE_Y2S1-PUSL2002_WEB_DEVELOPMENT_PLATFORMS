@@ -2,8 +2,8 @@
 session_start();
 if(isset($_SESSION['username'])){
     unset($_SESSION['username']);
-    header("location:access.php");
+    header("location:../access.php");
 }else{
-    header("location:access.php");
+    header("location:../access.php");
 }
 ?>
