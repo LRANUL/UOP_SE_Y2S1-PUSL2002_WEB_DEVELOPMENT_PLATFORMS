@@ -2,6 +2,7 @@
 session_start();
 if(isset($_SESSION['username'])){
 //echo 'hii' .$_SESSION['username'];
+
 //echo '<a href="logout.php"> Log out </a>';
 ?>
 <!doctype html>

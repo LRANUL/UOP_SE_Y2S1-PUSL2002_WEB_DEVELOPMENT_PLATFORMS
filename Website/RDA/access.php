@@ -4,6 +4,15 @@ if(isset($_POST['submit'])){
     $email = $_POST['email'];
     $password = $_POST['password'];
     $type = $_POST['type'];
+    
+    $sql2 = "select Name from users where email = '".$email."'";
+  $rs2 =mysqli_query($conn,$sq2);
+  $numRows2 = mysqli_num_rows($rs2);
+  if($numRows2  == 1){
+    $row2 = mysqli_fetch_assoc($rs2);
+    session_start();
+            $_SESSION["username"] = $row2['Name'];
+  }
 
 
     $sql = "select * from users where email = '".$email."'";
@@ -15,30 +24,24 @@ if(isset($_POST['submit'])){
         if(password_verify($password,$row['Password'])) {
             if ($type == "Police_Agent"){
                 session_start();
-                $_SESSION['start'] = time();
-                $_SESSION['expire'] = $_SESSION['start'] + (720 * 60);  // 12 hour session window
-                $_SESSION["email"] = $email;
+            $_SESSION["email"] = $email;
             header("Location: police");
         }
         else if($type == "Insurance_Agent"){
         session_start();
-            $_SESSION['start'] = time();
-            $_SESSION['expire'] = $_SESSION['start'] + (720 * 60);  // 12 hour session window
             $_SESSION["email"] = $email;
+            $_SESSION["username"] = $email;
             header("Location: insurance");
         }
         else if($type == "RDA_Agent"){
             session_start();
-            $_SESSION['start'] = time();
-            $_SESSION['expire'] = $_SESSION['start'] + (720 * 60);  // 12 hour session window
             $_SESSION["email"] = $email;
             header("Location: agent");
         }
         else if($type == "Web_Master"){
             session_start();
-            $_SESSION['start'] = time();
-            $_SESSION['expire'] = $_SESSION['start'] + (720 * 60);  // 12 hour session window
             $_SESSION["email"] = $email;
+            $_SESSION["username"] = $email;
             header("Location: webmaster");
         }
         else{
