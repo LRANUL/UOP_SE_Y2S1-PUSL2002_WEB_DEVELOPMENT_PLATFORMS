@@ -1,3 +1,24 @@
+<?php
+require_once "config.php";
+
+if(isset($_POST['submit'])) {
+$name = $_POST['name'];
+$email = $_POST['email'];
+$subject = $_POST['subject'];
+$message = $_POST['message'];
+
+
+$sql = "insert into feedback (Email,Name,Subject,Description) value('" . $email . "', '" . $name . "', '" . $subject . "','" . $message . "')";
+if (mysqli_query($conn, $sql)) {
+    echo '<script>alert("Message Sent")</script>';
+
+
+} else {
+    echo '<script>alert("Message not sent, Try Again later")</script>'
+. mysqli_error($conn);
+}
+}
+?>
 <!DOCTYPE html>
 <html>
 
@@ -38,18 +59,18 @@
     </div>
     </div>
     <div class="contact-clean" style="background-image: url(&quot;assets/img/2351187.jpg&quot;);background-size: cover;">
-        <form>
+        <form action="<?php echo $_SERVER['PHP_SELF']?>" method="post" >
             <h2 class="text-center">Contact us</h2>
             <div class="form-group"><input class="form-control" type="text" name="name" placeholder="Name" style="margin-bottom: 15px;" required="">
-              <input class="form-control" type="text" name="Email" placeholder="Email" inputmode="email" required=""><select class="form-control"
+              <input class="form-control" type="text" name="email" placeholder="Email" inputmode="email" required=""><select class="form-control"
                     style="margin-top: 15px;" name="subject">
                     <optgroup selected="" label="Select Subject">
-                      <option value="12" >General</option>
-                      <option value="13">Account</option>
-                      <option value="14">Complains</option>
+                      <option value="General" >General</option>
+                      <option value="Account">Account</option>
+                      <option value="Complaint">Complaints</option>
                     </optgroup></select></div>
             <div class="form-group"><textarea class="form-control" name="message" placeholder="Message" rows="14"></textarea></div>
-            <div class="form-group"><button class="btn btn-primary" type="submit">send </button></div>
+            <div class="form-group"><button class="btn btn-primary" type="submit" name="submit">send</button></div>
         </form>
     </div>
     <div class="card"></div>

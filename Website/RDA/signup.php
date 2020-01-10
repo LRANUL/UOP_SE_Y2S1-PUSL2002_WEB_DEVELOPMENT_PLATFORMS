@@ -93,7 +93,9 @@ class="collapse navbar-collapse" id="navcol-1">
 <input class="form-control" type="password" name="confirm_password" placeholder="Confirm Password" maxlength="30"></div>
 <div class="form-check"><label class="form-check-label">
 <input class="form-check-input" type="checkbox">I agree to the license terms.</label></div>
-<div class="form-group"><button class="btn btn-info btn-block" data-bs-hover-animate="pulse" type="submit" name="submit" style="margin-top: 15px;">Sign Up</button></div><a class="already" href="login.php">You already have an account? Login here.</a></form>
+<div class="form-group">
+    <button class="btn btn-info btn-block" data-bs-hover-animate="pulse" type="submit" name="submit" style="margin-top: 15px;">Sign Up</button>
+</div><a class="already" href="login.php">You already have an account? Login here.</a></form>
 </div>
 </div>
 <div class="card"></div>
