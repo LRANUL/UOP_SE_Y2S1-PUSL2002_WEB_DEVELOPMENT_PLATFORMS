@@ -2,8 +2,10 @@
 
 require_once "config.php";
 session_start();
-if (!isset($_SESSION["email"])) {
-    header("location: login");
+$now = time();
+if (!isset($_SESSION["email"]) && $now > $_SESSION['expire']) {
+    echo '<script>alert("Your session has expired, login again.")</script>';
+    header("location: access");
 }
 
 $markers=array();

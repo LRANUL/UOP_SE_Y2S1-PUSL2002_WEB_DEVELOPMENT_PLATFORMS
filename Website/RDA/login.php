@@ -36,8 +36,9 @@ if(isset($_POST['submit'])){
 		if(password_verify($password,$row['Password'])){
             session_start();
             $_SESSION["email"] = $email;
+            $_SESSION['start'] = time();
+            $_SESSION['expire'] = $_SESSION['start'] + (720 * 60);  // 12 hour session window
          header("Location: reporter");
-
 		}
 		else{
     echo '<script>alert("Wrong Password")</script>';

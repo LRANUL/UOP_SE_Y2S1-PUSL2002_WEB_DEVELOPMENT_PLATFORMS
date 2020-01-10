@@ -15,21 +15,29 @@ if(isset($_POST['submit'])){
         if(password_verify($password,$row['Password'])) {
             if ($type == "Police_Agent"){
                 session_start();
-            $_SESSION["email"] = $email;
+                $_SESSION['start'] = time();
+                $_SESSION['expire'] = $_SESSION['start'] + (720 * 60);  // 12 hour session window
+                $_SESSION["email"] = $email;
             header("Location: police");
         }
         else if($type == "Insurance_Agent"){
         session_start();
+            $_SESSION['start'] = time();
+            $_SESSION['expire'] = $_SESSION['start'] + (720 * 60);  // 12 hour session window
             $_SESSION["email"] = $email;
             header("Location: insurance");
         }
         else if($type == "RDA_Agent"){
             session_start();
+            $_SESSION['start'] = time();
+            $_SESSION['expire'] = $_SESSION['start'] + (720 * 60);  // 12 hour session window
             $_SESSION["email"] = $email;
             header("Location: agent");
         }
         else if($type == "Web_Master"){
             session_start();
+            $_SESSION['start'] = time();
+            $_SESSION['expire'] = $_SESSION['start'] + (720 * 60);  // 12 hour session window
             $_SESSION["email"] = $email;
             header("Location: webmaster");
         }

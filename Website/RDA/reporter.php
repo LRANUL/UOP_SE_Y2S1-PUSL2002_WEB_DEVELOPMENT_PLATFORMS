@@ -5,9 +5,13 @@
  */
 require_once "config.php";
 session_start();
-if (!isset($_SESSION["email"])) {
+$now = time();
+if (!isset($_SESSION["email"]) && $now > $_SESSION['expire']) {
+    echo '<script>alert("Your session has expired, login again.")</script>';
     header("location: login");
-} else {
+}
+
+else {
     $email = ($_SESSION["email"]);
     $sql = "select name,LicenseNo,ContactNo,NIC from driver where email = '" . $email . "'";
     if ($result = mysqli_query($conn, $sql)) {

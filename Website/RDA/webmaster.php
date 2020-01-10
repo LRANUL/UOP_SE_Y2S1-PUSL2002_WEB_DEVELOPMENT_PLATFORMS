@@ -2,8 +2,10 @@
 
 require_once "config.php";
 session_start();
-if (!isset($_SESSION["email"])) {
-    header("location: login");
+$now = time();
+if (!isset($_SESSION["email"]) && $now > $_SESSION['expire']) {
+    echo '<script>alert("Your session has expired, login again.")</script>';
+    header("location: access");
 }
 $users="SELECT nic,name,email,type FROM users";
 $Uresult= mysqli_query($conn,$users);
@@ -79,6 +81,7 @@ while( $row = $query->fetch_assoc() ){
     $markers[]=array( 'type'=>$type, 'lat'=>$latitude, 'lng'=>$longitude,'desc'=>$desc);
 }
 
+
 ?>
 <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDEoqYdMxy9glgnny_X1WMcJDFYf3lAHtw"></script>
 <script type="text/javascript">
@@ -127,8 +130,6 @@ while( $row = $query->fetch_assoc() ){
     }
     google.maps.event.addDomListener(window, 'load', initialize);
 </script>
-
-?>
 
 <!DOCTYPE html>
 <html>
@@ -265,9 +266,9 @@ while( $row = $query->fetch_assoc() ){
                                     class="btn btn-primary bg-dark action-button" data-toggle="modal" data-target="#RegisterModal" type="button"
                                     style="margin: 10px;">Account Manager</a><a
                                     class="btn btn-primary bg-dark action-button" role="button" href="#"
-                                    style="margin: 10px;">Complaint Manager</a><a
+                                    style="margin: 10px;">Complaint</a><a
                                     class="btn btn-primary bg-dark action-button" role="button" href="#"
-                                    style="margin: 10px;">Feedback Manager</a></span>
+                                    style="margin: 10px;">Feedback</a></span>
                             <div><a class="btn btn-primary" data-toggle="collapse" aria-expanded="true"
                                     aria-controls="collapse-1" href="#collapse-1" role="button"
                                     style="border-radius: 20px;margin: 10px;">Map</a>
