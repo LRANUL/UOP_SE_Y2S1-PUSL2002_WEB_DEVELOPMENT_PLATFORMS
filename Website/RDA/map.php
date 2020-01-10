@@ -66,6 +66,7 @@ while( $row = $query->fetch_assoc() ){
 </script>
 
 
+
 <!DOCTYPE html>
 <html>
 
@@ -88,6 +89,12 @@ while( $row = $query->fetch_assoc() ){
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <script src="jquery-2.1.4.js"></script>
     <link rel="stylesheet" type="text/css" href="styles.css">
+
+    <!-- Retrieving Chart.JS  library from local files-->
+    <script src="assets/js/Chart.js"></script>
+    <script src="assets/js/Chart.min.js"></script>
+
+
     <style>
         #dvMap{
             height: 500px;
@@ -117,6 +124,98 @@ while( $row = $query->fetch_assoc() ){
     </div>
         <div id="dvMap"></div>
     </div>
+    <!-- TYPE OF ACCIDENT GRAPH IMPLEMENTATION - BEGIN -->
+    <!-- Specifying place to render the chart -->
+    <div style="width: 50%; height: 30%; position: relative; top: 20px; left: 50%; transform: translateX(-50%);">
+      <canvas id="typeAccident" width="150" height="100"></canvas>
+    </div>
+
+    <div style="height: 300px; width: 100%;">
+
+    </div>
+
+    <script>
+      <?php
+        $countOfVehicles = array();
+
+        $typeAccidentSQL = "SELECT Type, COUNT(Type) AS 'COUNT' FROM report GROUP BY Type ORDER BY Type;";
+
+        $typeAccidentResult = mysqli_query($conn, $typeAccidentSQL);
+
+        while($typeAccidentRow = mysqli_fetch_array($typeAccidentResult)){
+          $countOfVehicle[] = ($typeAccidentRow["COUNT"]);
+        }
+      ?>
+
+
+      // Retrieving the ID of the assign canvas located at the position of the chart rendering position
+      var tAGraphLocation = document.getElementById('typeAccident').getContext('2d');
+
+      // DATASET of the chart
+      var data = {
+        labels: ["Bike", "Bus", "Car", "SUV", "Truck", "Van"],
+        datasets: [
+          {
+            label: "Number of Vehicles",
+            data: [<?php echo $countOfVehicle[0] ?>, <?php echo $countOfVehicle[1] ?>, <?php echo $countOfVehicle[2] ?>, <?php echo $countOfVehicle[3] ?>,
+                    <?php echo $countOfVehicle[4] ?>, <?php echo $countOfVehicle[5] ?>,],
+            backgroundColor: [
+              "#86BCDE",
+              "#86BCDE",
+              "#86BCDE",
+              "#86BCDE",
+              "#86BCDE",
+              "#86BCDE"
+            ],
+            borderColor: [
+              "#A886DE",
+              "#A886DE",
+              "#A886DE",
+              "#A886DE",
+              "#A886DE",
+              "#A886DE"
+            ],
+            borderWidth: 1
+          }]};
+
+      // OPTIONS of the chart
+      var options = {
+        responsive: true,
+        title: {
+          display: true,
+          position: "top",
+          text: "Type of Accidents",
+          fontSize: 18,
+          fontColor: "#111"
+        },
+        legend: {
+          display: true,
+          position: "top",
+          labels: {
+            fontColor: "#333",
+            fontSize: 16
+          }
+        },
+        scales: {
+          yAxes: [{
+            ticks: {
+              min: 0
+            }
+          }]
+        }
+      };
+
+      // Increasing the font size of the x axis and y axis
+      //chart.defaults.global.defaultFontSize = 10;
+      // CREATING chart with chart class object
+      var chart = new Chart(tAGraphLocation, {
+        type: "bar",
+        data: data,
+        options: options
+      });
+    </script>
+    <!-- TYPE OF ACCIDENT GRAPH IMPLEMENTATION - END -->
+
 </body>
     <div class="footer-clean">
         <footer>
@@ -143,92 +242,3 @@ while( $row = $query->fetch_assoc() ){
 </div>
 
 </html>
-
-
-<!-- TYPE OF ACCIDENT GRAPH IMPLEMENTATION - BEGIN -->
-<!-- Specifying place to render the chart -->
-<div>
-  <canvas id="typeAccident" width="150" height="100"></canvas>
-</div>
-
-<script>
-  <?php
-    $countOfVehicles = array();
-
-    $typeAccidentSQL = "SELECT Type, COUNT(Type) AS 'COUNT' FROM report GROUP BY Type ORDER BY Type;";
-
-    $typeAccidentResult = mysqli_query($conn, $typeAccidentSQL);
-
-    while($typeAccidentRow = mysqli_fetch_array($typeAccidentResult)){
-      $countOfVehicle[] = ($typeAccidentRow["COUNT"]);
-    }
-  ?>
-
-
-  // Retrieving the ID of the assign canvas located at the position of the chart rendering position
-  var tAGraphLocation = document.getElementById('typeAccident').getContext('2d');
-
-  // DATASET of the chart
-  var data = {
-    labels: ["Bike", "Bus", "Car", "SUV", "Truck", "Van"],
-    datasets: [
-      {
-        label: "Number of Vehicles",
-        data: [<?php echo $countOfVehicle[0] ?>, <?php echo $countOfVehicle[1] ?>, <?php echo $countOfVehicle[2] ?>, <?php echo $countOfVehicle[3] ?>,
-                <?php echo $countOfVehicle[4] ?>, <?php echo $countOfVehicle[5] ?>,],
-        backgroundColor: [
-          "#86BCDE",
-          "#86BCDE",
-          "#86BCDE",
-          "#86BCDE",
-          "#86BCDE",
-          "#86BCDE"
-        ],
-        borderColor: [
-          "#A886DE",
-          "#A886DE",
-          "#A886DE",
-          "#A886DE",
-          "#A886DE",
-          "#A886DE"
-        ],
-        borderWidth: 1
-      }]};
-
-  // OPTIONS of the chart
-  var options = {
-    responsive: true,
-    title: {
-      display: false,
-      position: "top",
-      text: "Bar Graph",
-      fontSize: 18,
-      fontColor: "#111"
-    },
-    legend: {
-      display: true,
-      position: "top",
-      labels: {
-        fontColor: "#333",
-        fontSize: 16
-      }
-    },
-    scales: {
-      yAxes: [{
-        ticks: {
-          min: 0
-        }
-      }]
-    }
-  };
-
-  // Increasing the font size of the x axis and y axis
-  //chart.defaults.global.defaultFontSize = 10;
-  // CREATING chart with chart class object
-  var chart = new Chart(tAGraphLocation, {
-    type: "bar",
-    data: data,
-    options: options
-  });
-</script>
-<!-- TYPE OF ACCIDENT GRAPH IMPLEMENTATION - END -->
