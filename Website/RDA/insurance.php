@@ -21,6 +21,19 @@ $Oresult=mysqli_query($conn, $ongoing);
 $graph="SELECT Type, count(*) as number from report Group by Type";
 $gresult=mysqli_query($conn,$graph);
 
+
+if (isset($_POST['Accept'])) {
+    $id = $_POST['id'];
+    $insert = "Update vreport set Status = 'Accept' Where ID=$id";
+    $result = mysqli_query($conn, $insert);
+}
+
+if (isset($_POST['Decline'])) {
+    $id = $_POST['id'];
+    $delete = "Update vreport set Status = 'Decline' Where ID=$id";
+    $result = mysqli_query($conn, $delete);
+}
+
 $markers=array();
 
 $query =  $conn->query("SELECT Type,Longitude,Latitude,Description FROM vreport");
@@ -34,19 +47,54 @@ while( $row = $query->fetch_assoc() ){
     $markers[]=array( 'type'=>$type, 'lat'=>$latitude, 'lng'=>$longitude,'desc'=>$desc);
 }
 
-if (isset($_POST['Accept'])) {
-    $id = $_POST['id'];
-    $insert = "Update vreport set Status = 'Accept' Where ID=$id";
-    $result = mysqli_query($conn, $insert);
-}
-
-if (isset($_POST['Decline'])) {
-    $id = $_POST['id'];
-    $delete = "Update vreport set Status = 'Decline' Where ID=$id";
-    $result = mysqli_query($conn, $delete);
-} ?>
-
-
+?>
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDEoqYdMxy9glgnny_X1WMcJDFYf3lAHtw"></script>
+<script type="text/javascript">
+    var map;
+    var Markers = {};
+    var infowindow;
+    var locations = [
+        <?php for($i=0;$i<sizeof($markers);$i++){ $j=$i+1;?>
+        [
+            'RDA AA',
+            "'<h6><?php echo $markers[$i]['type'];?><p>Accident</p>",
+        <?php echo $markers[$i]['lat'];?>,
+            <?php echo $markers[$i]['lng'];?>,
+        ]<?php if($j!=sizeof($markers))echo ","; }?>
+    ];
+    var origin = new google.maps.LatLng(locations[0][2], locations[0][3]);
+    function initialize() {
+        var mapOptions = {
+            zoom: 9,
+            center: origin
+        };
+        map = new google.maps.Map(document.getElementById('dvMap'), mapOptions);
+        infowindow = new google.maps.InfoWindow();
+        for(i=0; i<locations.length; i++) {
+            var position = new google.maps.LatLng(locations[i][2], locations[i][3]);
+            var marker = new google.maps.Marker({
+                position: position,
+                map: map,
+            });
+            google.maps.event.addListener(marker, 'click', (function(marker, i) {
+                return function() {
+                    infowindow.setContent(locations[i][1]);
+                    infowindow.setOptions({maxWidth: 200});
+                    infowindow.open(map, marker);
+                }
+            }) (marker, i));
+            Markers[locations[i][4]] = marker;
+        }
+        locate(0);
+    }
+    function locate(marker_id) {
+        var myMarker = Markers[marker_id];
+        var markerPosition = myMarker.getPosition();
+        map.setCenter(markerPosition);
+        google.maps.event.trigger(myMarker, 'click');
+    }
+    google.maps.event.addDomListener(window, 'load', initialize);
+</script>
 <!DOCTYPE html>
 <html>
 
@@ -98,54 +146,6 @@ if (isset($_POST['Decline'])) {
         chart.draw(data, options);
       }
     </script>
-
-    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDEoqYdMxy9glgnny_X1WMcJDFYf3lAHtw"></script>
-    <script type="text/javascript">
-    var map;
-    var Markers = {};
-    var infowindow;
-    var locations = [
-        <?php for($i=0;$i<sizeof($markers);$i++){ $j=$i+1;?>
-        [
-            'RDA AA',
-            "'<h6><?php echo $markers[$i]['type'];?><p>Accident</p>",
-        <?php echo $markers[$i]['lat'];?>,
-            <?php echo $markers[$i]['lng'];?>,
-        ]<?php if($j!=sizeof($markers))echo ","; }?>
-    ];
-    var origin = new google.maps.LatLng(locations[0][2], locations[0][3]);
-    function initialize() {
-        var mapOptions = {
-            zoom: 9,
-            center: origin
-        };
-        map = new google.maps.Map(document.getElementById('dvMap'), mapOptions);
-        infowindow = new google.maps.InfoWindow();
-        for(i=0; i<locations.length; i++) {
-            var position = new google.maps.LatLng(locations[i][2], locations[i][3]);
-            var marker = new google.maps.Marker({
-                position: position,
-                map: map,
-            });
-            google.maps.event.addListener(marker, 'click', (function(marker, i) {
-                return function() {
-                    infowindow.setContent(locations[i][1]);
-                    infowindow.setOptions({maxWidth: 200});
-                    infowindow.open(map, marker);
-                }
-            }) (marker, i));
-            Markers[locations[i][4]] = marker;
-        }
-        locate(0);
-    }
-    function locate(marker_id) {
-        var myMarker = Markers[marker_id];
-        var markerPosition = myMarker.getPosition();
-        map.setCenter(markerPosition);
-        google.maps.event.trigger(myMarker, 'click');
-    }
-    google.maps.event.addDomListener(window, 'load', initialize);
-</script>
 
 </head>
 
@@ -410,7 +410,7 @@ if (isset($_POST['Decline'])) {
                 <h2 class="text-center">Location of Accident</h2>
             </div>
             <div>
-               <div id="dvmap" style="width:100%;height:450px;"></div>
+               <div id="dvMap" style="width:100%;height:450px;"></div>
             </div>
         </div>
     </div>
