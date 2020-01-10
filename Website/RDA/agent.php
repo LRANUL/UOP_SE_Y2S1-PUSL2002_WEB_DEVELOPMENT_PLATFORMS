@@ -18,7 +18,10 @@ while( $row = $query->fetch_assoc() ){
 
     $markers[]=array( 'type'=>$type, 'lat'=>$latitude, 'lng'=>$longitude,'desc'=>$desc);
 }
-
+$sql1="SELECT * FROM Support";
+$support=mysqli_query($conn, $sql1);
+$sql2="SELECT * FROM feedback";
+$feedback=mysqli_query($conn, $sql2);
 ?>
 <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDEoqYdMxy9glgnny_X1WMcJDFYf3lAHtw"></script>
 <script type="text/javascript">
@@ -67,7 +70,7 @@ while( $row = $query->fetch_assoc() ){
     }
     google.maps.event.addDomListener(window, 'load', initialize);
 </script>
-?>
+
 <!DOCTYPE html>
 <html>
 
@@ -103,11 +106,12 @@ while( $row = $query->fetch_assoc() ){
             <nav class="navbar navbar-dark navbar-expand-lg navigation-clean-search">
                 <div class="container"><a class="navbar-brand" href="#">Accident Management Department</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
                     <div
-                        class="collapse navbar-collapse" id="navcol-1">
+                            class="collapse navbar-collapse" id="navcol-1">
                         <form class="form-inline mr-auto" target="_self">
                             <div class="form-group"><label for="search-field"></label></div>
-                            <span class="text-primary navbar-text"> <button class="btn btn-light text-white action-button" type="button"><a href="logout.php">Log Out</a></button></span></div>
-        </div>
+                        </form>
+                        <span class="text-primary navbar-text"> <button class="btn btn-light text-white action-button" type="button"><a href="logout.php">Log Out</a></button></span></div>
+               </div>
         </nav>
         <!--Comment-->
     </div>
@@ -154,28 +158,104 @@ while( $row = $query->fetch_assoc() ){
             <div class="row">
                 <div class="col-auto col-md-12 text-center align-self-center m-auto">
                     <nav class="navbar navbar-light navbar-expand-xl bg-secondary navigation-clean-button">
-                        <div class="container"><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
-                            <div class="collapse navbar-collapse" id="navcol-1"><span class="navbar-text actions"> </span><span class="navbar-text actions"> <a class="btn btn-primary bg-success action-button" role="button" href="#" style="margin: 10px;">Manage Accident Reports</a><a class="btn btn-primary bg-dark action-button" role="button" href="#" style="margin: 10px;">Account Manager</a><a class="btn btn-primary bg-dark action-button" role="button" href="#" style="margin: 10px;">Complaint Manager</a><a class="btn btn-primary bg-dark action-button" role="button" href="#" style="margin: 10px;">Feedback Manager</a></span>
-                                <div><a class="btn btn-primary" data-toggle="collapse" aria-expanded="true" aria-controls="collapse-1" href="#collapse-1" role="button" style="border-radius: 20px;margin: 10px;">Map</a>
+                        <div class="container">
+                            <button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span
+                                        class="sr-only">Toggle navigation</span><span
+                                        class="navbar-toggler-icon"></span></button>
+                            <div class="collapse navbar-collapse" id="navcol-1"><span
+                                        class="navbar-text actions"> </span><span class="navbar-text actions"> <a
+                                            class="btn btn-primary bg-success action-button" role="button" href="#"
+                                            style="margin: 10px;">Manage Accident Reports</a><a
+                                            class="btn btn-primary bg-dark action-button" role="button" href="#"
+                                            style="margin: 10px;">Account Manager</a><a
+                                            class="btn btn-primary bg-dark action-button" data-toggle="modal" data-target="#support"  type="button"
+                                            style="margin: 10px;">Complaint Manager</a><a
+                                            class="btn btn-primary bg-dark action-button" data-toggle="modal" data-target="#feedback"  type="button"
+                                            style="margin: 10px;">Feedback Manager</a></span>
+                                <div><a class="btn btn-primary" data-toggle="collapse" aria-expanded="true"
+                                        aria-controls="collapse-1" href="#collapse-1" role="button"
+                                        style="border-radius: 20px;margin: 10px;">Map</a>
                                     <div class="collapse show" id="collapse-1"></div>
-                                </div>
-                            </div>
-                            <div class="modal fade" role="dialog" tabindex="-1" id="CreateAcc">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h4 class="modal-title">Create Account</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
-                                        <div class="modal-body">
-                                            <h6 class="text-left">User Name:&nbsp;<input type="email"></h6>
-                                            <h6 class="text-left">Password:&nbsp;<input type="password"></h6>
-                                            <h6 class="text-left">User Type&nbsp;<select><option value="12" selected="">RDA Staff</option><option value="13">Police Staff</option><option value="14">Insurance Staff</option></select></h6>
-                                        </div>
-                                        <div class="modal-footer"><button class="btn btn-light" type="button" data-dismiss="modal">Close</button><button class="btn btn-primary" type="button">Create</button></div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
                     </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal" id="support" role="dialog">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Customer Support / Complaints</h4>
+                </div>
+                <div class="modal-body">
+                    <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post"
+                          style="height: 620px;">
+                                    <table class="table table-striped">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">ID</th>
+                                            <th scope="col">NIC</th>
+                                            <th scope="col">Subject</th>
+                                            <th scope="col">Description</th>
+                                            <th scope="col">Status</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <?php while ($record = mysqli_fetch_assoc($support)) {?>
+                                            <td><?php echo $record['ID']; ?></td>
+                                            <td><?php echo $record['NIC']; ?></td>
+                                            <td><?php echo $record['Subject']; ?></td>
+                                            <td><?php echo $record['Description']; ?></td>
+                                            <td><?php echo $record['Status']; ?></td>
+                                        </tr>
+                                        <?php } ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                </div>
+                        </div>
+                </div>
+            </div>
+    <div class="modal" id="feedback" role="dialog">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Visitor Feedback / Complaint</h4>
+                </div>
+                <div class="modal-body">
+                    <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post"
+                          style="height: 620px;">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Subject</th>
+                                <th scope="col">Description</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <?php while ($record = mysqli_fetch_assoc($feedback)) {?>
+                                <td><?php echo $record['ID']; ?></td>
+                                <td><?php echo $record['Name']; ?></td>
+                                <td><?php echo $record['Email']; ?></td>
+                                <td><?php echo $record['Subject']; ?></td>
+                                <td><?php echo $record['Description']; ?></td>
+                            </tr>
+                            <?php } ?>
+                            </tbody>
+                        </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
